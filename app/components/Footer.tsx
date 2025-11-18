@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router"
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -16,7 +16,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  to="/"
+                  href="/"
                   className="hover:text-foreground transition-colors"
                 >
                   Inicio
@@ -24,7 +24,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="/about"
+                  href="/about"
                   className="hover:text-foreground transition-colors"
                 >
                   Acerca de
@@ -37,7 +37,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
                 <Link
-                  to="#"
+                  href="#"
                   className="hover:text-foreground transition-colors"
                 >
                   Privacidad
@@ -45,7 +45,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  to="#"
+                  href="#"
                   className="hover:text-foreground transition-colors"
                 >
                   Términos
@@ -59,5 +59,5 @@ export default function Footer() {
         </div>
       </div>
     </footer>
-  )
+  );
 }
