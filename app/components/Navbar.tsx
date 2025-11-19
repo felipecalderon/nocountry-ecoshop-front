@@ -3,9 +3,10 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu";
-import Link from "next/link";
-import MobileNavbar from "./MobileNavbar";
+} from "@/components/ui/navigation-menu"
+import Link from "next/link"
+import MobileNavbar from "./MobileNavbar"
+import Image from "next/image"
 
 export default function Navbar() {
   return (
@@ -15,12 +16,16 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 font-bold text-lg text-foreground hover:text-primary transition-colors"
+            className="flex items-center gap-2 font-bold text-lg hover:text-primary transition-colors"
           >
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-primary-foreground text-sm font-bold">
-              E
-            </div>
-            <span>Ecoshop</span>
+            <Image
+              src="/logo.png"
+              alt="Logo principal"
+              className="h-20 w-20"
+              width={80}
+              height={80}
+            />
+            <span className="text-secondary">Ecoshop</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -59,5 +64,5 @@ export default function Navbar() {
         </div>
       </div>
     </nav>
-  );
+  )
 }
