@@ -1,12 +1,12 @@
-"use client";
+"use client"
 
-import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
+import { Button } from "@/app/components/ui/button"
+import { Menu, X } from "lucide-react"
+import Link from "next/link"
+import { useState } from "react"
 
 export default function MobileNavbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div>
@@ -44,5 +44,5 @@ export default function MobileNavbar() {
         </div>
       )}
     </div>
-  );
+  )
 }
