@@ -3,7 +3,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
+} from "@/app/components/ui/navigation-menu"
 import Link from "next/link"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
