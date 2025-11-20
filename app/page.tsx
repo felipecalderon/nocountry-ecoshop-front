@@ -1,8 +1,10 @@
-import Image from "next/image";
+import Image from "next/image"
+import HeroBannerSlider from "./components/home/HeroBannerSlider"
 
 export default function Home() {
   return (
     <>
+      <HeroBannerSlider />
       <Image
         className="dark:invert"
         src="/next.svg"
@@ -17,5 +19,5 @@ export default function Home() {
         </h1>
       </div>
     </>
-  );
+  )
 }

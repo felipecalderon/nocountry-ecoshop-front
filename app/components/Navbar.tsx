@@ -24,6 +24,7 @@ export default function Navbar() {
               className="h-20 w-20"
               width={80}
               height={80}
+              priority
             />
             <span className="text-secondary">Ecoshop</span>
           </Link>
