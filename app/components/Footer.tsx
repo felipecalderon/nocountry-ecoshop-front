@@ -1,0 +1,63 @@
+import Link from "next/link";
+
+export default function Footer() {
+  return (
+    <footer className="border-t border-border bg-card mt-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Acerca de</h3>
+            <p className="text-sm text-muted-foreground">
+              Ecoshop la mejor tienda ecológica del mundo mundial
+            </p>
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Enlaces</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link
+                  href="/"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Inicio
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Acerca de
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Privacidad
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="#"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Términos
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
+          <p>&copy; 2025 MyApp. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  );
+}
