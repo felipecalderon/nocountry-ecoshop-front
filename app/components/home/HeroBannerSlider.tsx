@@ -1,6 +1,5 @@
 "use client"
 
-import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "../ui/card"
@@ -10,48 +9,15 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-  type CarouselApi,
 } from "../ui/carousel"
-import Autoplay from "embla-carousel-autoplay"
-import HeroBannerImg1 from "../../../public/images/hero-banner1.jpg"
-import HeroBannerImg2 from "../../../public/images/hero-banner2.jpg"
-import HeroBannerImg3 from "../../../public/images/hero-banner3.jpg"
-import HeroBannerImg4 from "../../../public/images/hero-banner4.jpg"
-import HeroBannerImg5 from "../../../public/images/hero-banner5.jpg"
-
-const images = [
-  HeroBannerImg1,
-  HeroBannerImg2,
-  HeroBannerImg3,
-  HeroBannerImg4,
-  HeroBannerImg5,
-]
+import { heroImages } from "@/lib/data/heroImages"
+import { useCarousel } from "@/hooks/useCarousel"
 
 function HeroBannerSlider() {
-  const [api, setApi] = useState<CarouselApi | null>(null)
-  const [current, setCurrent] = useState(0)
-  const [count, setCount] = useState(0)
-
-  const plugin = useRef(
-    Autoplay({
-      delay: 3000,
-      stopOnInteraction: true,
-    })
-  )
-
-  useEffect(() => {
-    if (!api) return
-
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap())
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap())
-    })
-  }, [api])
+  const { api, setApi, current, count, plugin } = useCarousel(5000)
 
   return (
-    <section className="max-w-5xl mx-auto relative">
+    <section className="-mt-8 relative">
       <Carousel
         setApi={setApi}
         className="w-full"
@@ -64,17 +30,22 @@ function HeroBannerSlider() {
         onMouseLeave={() => plugin.current.play()}
       >
         <CarouselContent>
-          {images.map((image, index) => (
+          {heroImages.map((image, index) => (
             <CarouselItem key={index}>
-              <Link key={index} href="/products">
-                <Card className="bg-red-200 p-0 rounded-none w-full">
+              <Link
+                key={index}
+                href="/products"
+                title="Ir a la página de productos"
+              >
+                <Card className="bg-red-200 p-0 rounded-none w-full border-none">
                   <CardContent className="p-0">
                     <Image
                       src={image}
-                      alt="EcoShop"
-                      width={400}
-                      height={400}
+                      alt={`Ecoshop Banner Image ${index + 1}`}
+                      width={900}
+                      height={377}
                       className="max-h-120 w-full object-cover"
+                      priority={index === 0}
                     />
                   </CardContent>
                 </Card>
