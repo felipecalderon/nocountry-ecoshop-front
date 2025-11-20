@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "../ui/card"
 import {
   Carousel,
   CarouselContent,
@@ -11,7 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
   type CarouselApi,
-} from "@/components/ui/carousel"
+} from "../ui/carousel"
 import Autoplay from "embla-carousel-autoplay"
 import HeroBannerImg1 from "../../../public/images/hero-banner1.jpg"
 import HeroBannerImg2 from "../../../public/images/hero-banner2.jpg"
