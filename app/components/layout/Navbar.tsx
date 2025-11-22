@@ -7,17 +7,16 @@ import {
 import Link from "next/link"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
+import { Search, ShoppingCart } from "lucide-react"
 
 export default function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
+    <nav className="sticky top-0 bg-white dark:bg-primary z-50 border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-bold text-lg hover:text-primary transition-colors"
-          >
+          <Link href="/" className="flex items-center gap-2 font-bold text-lg">
             <Image
               src="/logo.png"
               alt="Logo principal"
@@ -26,17 +25,22 @@ export default function Navbar() {
               height={80}
               priority
             />
-            <span className="text-secondary">Ecoshop</span>
+            <div className="tracking-wider">
+              <span className="text-secondary font-light">ECO</span>
+              <span className="text-primary dark:text-primary-foreground">
+                SHOP
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center gap-3">
             <NavigationMenu>
               <NavigationMenuList className="flex gap-1">
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     asChild
-                    className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors rounded-md hover:bg-muted"
+                    className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
                     <Link href="/">Inicio</Link>
                   </NavigationMenuLink>
@@ -44,7 +48,7 @@ export default function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     asChild
-                    className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors rounded-md hover:bg-muted"
+                    className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
                     <Link href="/about">Acerca de</Link>
                   </NavigationMenuLink>
@@ -52,15 +56,21 @@ export default function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     asChild
-                    className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-white transition-colors rounded-md hover:bg-muted"
+                    className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
                     <Link href="/contact">Contacto</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
+            <div className="flex gap-2 text-primary dark:text-secondary">
+              <AnimatedThemeToggler className="cursor-pointer" />
+              <Search className="cursor-pointer" />
+              <ShoppingCart className="cursor-pointer" />
+            </div>
           </div>
 
+          {/* Mobile Navigation */}
           <MobileNavbar />
         </div>
       </div>
