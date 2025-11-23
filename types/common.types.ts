@@ -1,3 +1,5 @@
+import { StaticImageData } from "next/image"
+
 export interface IconProps {
   className?: string
 }
@@ -21,4 +23,12 @@ export interface SectionColumn {
 
 export interface ItemLinkColumnProps {
   column: SectionColumn
+}
+
+export interface HeroSlide {
+  image: StaticImageData
+  title: string
+  subtitle: string
+  buttonText: string
+  buttonLink: string
 }
