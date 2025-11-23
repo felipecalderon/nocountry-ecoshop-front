@@ -3,6 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Card, CardContent } from "../ui/card"
+import { Button } from "../ui/button"
 import {
   Carousel,
   CarouselContent,
@@ -10,7 +11,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel"
-import { heroImages } from "@/lib/data/heroImages"
+import { heroSlides } from "@/lib/data/heroSlides"
 import { useCarousel } from "@/hooks/useCarousel"
 
 function HeroBannerSlider() {
@@ -30,26 +31,40 @@ function HeroBannerSlider() {
         onMouseLeave={() => plugin.current.play()}
       >
         <CarouselContent>
-          {heroImages.map((image, index) => (
+          {heroSlides.map((slide, index) => (
             <CarouselItem key={index}>
-              <Link
-                key={index}
-                href="/products"
-                title="Ir a la página de productos"
-              >
-                <Card className="bg-red-200 p-0 rounded-none w-full border-none">
-                  <CardContent className="p-0">
+              <Card className="p-0 rounded-none w-full border-none dark:bg-transparent">
+                <CardContent className="p-0 min-h-110 relative grid place-items-center grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 lg:gap-12">
+                  <aside className="flex items-center text-center order-last md:order-first">
+                    <section className="container mx-auto px-4 md:px-6 lg:px-8 max-w-xl lg:max-w-2xl">
+                      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-gray-900 mb-4 dark:text-white">
+                        {slide.title}
+                      </h1>
+                      <p className="text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-8 dark:text-gray-200 lg:max-w-10/12 lg:mx-auto">
+                        {slide.subtitle}
+                      </p>
+                      <Button
+                        asChild
+                        size="lg"
+                        className="bg-primary dark:bg-secondary dark:text-white"
+                      >
+                        <Link href={slide.buttonLink}>{slide.buttonText}</Link>
+                      </Button>
+                    </section>
+                  </aside>
+
+                  <figure className="w-full h-full">
                     <Image
-                      src={image}
-                      alt={`Ecoshop Banner Image ${index + 1}`}
-                      width={900}
-                      height={377}
-                      className="max-h-120 w-full object-cover"
+                      src={slide.image}
+                      alt={slide.title}
+                      width={600}
+                      height={400}
+                      className="w-full h-full object-cover"
                       priority={index === 0}
                     />
-                  </CardContent>
-                </Card>
-              </Link>
+                  </figure>
+                </CardContent>
+              </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
