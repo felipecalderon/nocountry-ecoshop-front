@@ -32,3 +32,10 @@ export interface HeroSlide {
   buttonText: string
   buttonLink: string
 }
+
+export interface FeatureItemProps {
+  id?: number
+  icon: React.ReactNode
+  title: string
+  description: string
+}
