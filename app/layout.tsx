@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
+import { Toaster } from "sonner"
 import "./globals.css"
 import Footer from "./components/Footer"
 import Navbar from "./components/layout/Navbar"
@@ -26,7 +27,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  // const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   return (
     <html lang="es">
       <body
@@ -35,12 +35,12 @@ export default function RootLayout({
         <div className="flex flex-col min-h-screen bg-background">
           <TopNavbar />
           <Navbar />
-          <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <main className="flex-1 max-w-7xl w-full mx-auto py-8">
             {children}
           </main>
-
           <Footer />
         </div>
+        <Toaster richColors closeButton expand position="bottom-left" />
       </body>
     </html>
   )
