@@ -39,3 +39,7 @@ export interface FeatureItemProps {
   title: string
   description: string
 }
+
+export interface NewsletterFormProps {
+  className?: string
+}
