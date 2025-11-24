@@ -18,7 +18,7 @@ function HeroBannerSlider() {
   const { api, setApi, current, count, plugin } = useCarousel(5000)
 
   return (
-    <section className="-mt-8 relative">
+    <section className="-mt-8 relative max-w-6xl mx-auto">
       <Carousel
         setApi={setApi}
         className="w-full"
@@ -46,7 +46,7 @@ function HeroBannerSlider() {
                       <Button
                         asChild
                         size="lg"
-                        className="bg-primary dark:bg-secondary dark:text-white"
+                        className="bg-primary dark:bg-secondary dark:text-white mb-2"
                       >
                         <Link href={slide.buttonLink}>{slide.buttonText}</Link>
                       </Button>
@@ -72,7 +72,7 @@ function HeroBannerSlider() {
         <CarouselNext className="right-4 border-none cursor-pointer hover:text-white" />
       </Carousel>
 
-      <div className="absolute flex justify-center gap-2 bottom-4 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute flex justify-center gap-2 md:bottom-4 left-1/2 -translate-x-1/2 z-10">
         {Array.from({ length: count }).map((_, index) => (
           <button
             key={index}
