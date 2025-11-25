@@ -1,3 +1,5 @@
+"use client"
+
 import Image from "next/image"
 import { Button } from "../ui/button"
 import {
@@ -11,12 +13,21 @@ import {
 import { MagicCard } from "../ui/magic-card"
 import { Product } from "./product.interface"
 import { ShoppingCart } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type ProductProps = { product: Product }
 
 export default function ProductCard({ product }: ProductProps) {
+  const router = useRouter()
+  const goToProduct = () => {
+    router.push(`store/${product.id}`)
+  }
+
   return (
-    <Card className="w-full max-w-[300px] h-full bg-primary/30 dark:bg-secondary/30 border-none p-0 shadow-none hover:shadow-lg hover:scale-105 transition-all">
+    <Card
+      className="cursor-pointer w-full max-w-56 h-full bg-primary/30 dark:bg-secondary/30 border-none p-0 shadow-none hover:shadow-lg hover:scale-105 transition-all"
+      onClick={goToProduct}
+    >
       <MagicCard className="p-0 text-center h-full">
         <div className="flex flex-col h-full">
           <CardHeader className="border-border border-b p-4 [.border-b]:pb-4 dark:bg-secondary/20 rounded-t-2xl-lg">
@@ -32,13 +43,13 @@ export default function ProductCard({ product }: ProductProps) {
           </CardHeader>
 
           <CardContent className="p-4 bg-primary/20 dark:bg-secondary/50 grow">
-            <div className="text-2xl text-red-700 dark:text-secondary font-bold">
+            <div className="text-2xl text-red-700 dark:text-white font-black">
               ${product.price} USD
             </div>
           </CardContent>
 
           <CardFooter className="border-border border-t p-4 [.border-t]:pt-4 dark:bg-secondary/20 ">
-            <Button className="w-full dark:bg-secondary dark:hover:bg-secondary/85">
+            <Button className="w-full dark:bg-white dark:hover:bg-white/80 dark:text-gray-800 text-white font-black">
               Agregar al carrito <ShoppingCart />
             </Button>
           </CardFooter>

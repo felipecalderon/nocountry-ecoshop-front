@@ -50,7 +50,7 @@ export default function Navbar() {
                     asChild
                     className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
-                    <Link href="/about">Acerca de</Link>
+                    <Link href="/store">Productos</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
