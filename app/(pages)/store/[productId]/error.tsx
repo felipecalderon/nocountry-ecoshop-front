@@ -1,10 +1,8 @@
 "use client"
 
-import { Button } from "@/app/components/ui/button"
-import { useRouter } from "next/navigation"
+import { BackButton } from "@/app/components/ui/BackButton"
 
 export default function Error({ error }: { error: Error }) {
-  const { back } = useRouter()
   return (
     <div className="flex flex-col items-center">
       <div className="text-center">
@@ -17,12 +15,7 @@ export default function Error({ error }: { error: Error }) {
           {error.message}
         </pre>
       </div>
-      <Button
-        className="bg-secondary hover:bg-secondary/65 mt-6"
-        onClick={() => back()}
-      >
-        Regresar
-      </Button>
+      <BackButton />
     </div>
   )
 }
