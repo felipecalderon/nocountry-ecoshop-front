@@ -11,26 +11,41 @@ import {
   CardTitle,
 } from "../ui/card"
 import { MagicCard } from "../ui/magic-card"
-import { Product } from "./product.interface"
+import { ProductProps } from "./product.interface"
 import { ShoppingCart } from "lucide-react"
 import { useRouter } from "next/navigation"
-
-type ProductProps = { product: Product }
+import { useCartStore } from "@/stores/cartStore"
 
 export default function ProductCard({ product }: ProductProps) {
   const router = useRouter()
+  const { addItem } = useCartStore()
+
   const goToProduct = () => {
     router.push(`store/${product.id}`)
   }
 
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id,
+      slug: product.slug,
+      name: product.name,
+      image: product.image,
+      imageAltText: product.imageAltText,
+      price: product.price,
+      maxStock: product.stock,
+      sku: product.sku,
+    })
+  }
+
   return (
-    <Card
-      className="cursor-pointer w-full max-w-56 h-full bg-primary/30 dark:bg-secondary/30 border-none p-0 shadow-none hover:shadow-lg hover:scale-105 transition-all"
-      onClick={goToProduct}
-    >
+    <Card className="w-full max-w-56 h-full bg-primary/30 dark:bg-secondary/30 border-none p-0 shadow-none hover:shadow-lg hover:scale-105 transition-all">
       <MagicCard className="p-0 text-center h-full">
         <div className="flex flex-col h-full">
-          <CardHeader className="border-border border-b p-4 [.border-b]:pb-4 dark:bg-secondary/20 rounded-t-2xl-lg">
+          <CardHeader
+            className="border-border border-b p-4 [.border-b]:pb-4 dark:bg-secondary/20 rounded-t-2xl-lg cursor-pointer"
+            onClick={goToProduct}
+            title="Ver detalles del producto"
+          >
             <Image
               src="/product-noimg.jpg"
               alt=""
@@ -49,7 +64,10 @@ export default function ProductCard({ product }: ProductProps) {
           </CardContent>
 
           <CardFooter className="border-border border-t p-4 [.border-t]:pt-4 dark:bg-secondary/20 ">
-            <Button className="w-full dark:bg-white dark:hover:bg-white/80 dark:text-gray-800 text-white font-black">
+            <Button
+              className="w-full dark:bg-white dark:hover:bg-white/80 dark:text-gray-800 text-white font-black cursor-pointer"
+              onClick={handleAddToCart}
+            >
               Agregar al carrito <ShoppingCart />
             </Button>
           </CardFooter>
