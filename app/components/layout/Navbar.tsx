@@ -9,10 +9,11 @@ import Link from "next/link"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
-import { Search, ShoppingCart } from "lucide-react"
+import { Search } from "lucide-react"
 import { User } from "@/types"
 import { useAuth } from "@/stores/useAuthStore"
 import { useEffect } from "react"
+import { CartBadge } from "./CartBadge"
 
 export default function Navbar({ user }: { user: User | null }) {
   const { setUser } = useAuth()
@@ -75,7 +76,7 @@ export default function Navbar({ user }: { user: User | null }) {
             </NavigationMenu>
             <div className="flex gap-2 text-primary dark:text-secondary">
               <Search className="cursor-pointer" />
-              <ShoppingCart className="cursor-pointer" />
+              <CartBadge />
             </div>
           </div>
 
