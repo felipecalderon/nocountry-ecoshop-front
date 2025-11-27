@@ -1,3 +1,4 @@
+"use client"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -9,8 +10,17 @@ import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 import { Search, ShoppingCart } from "lucide-react"
+import { User } from "@/types"
+import { useAuth } from "@/stores/useAuthStore"
+import { useEffect } from "react"
 
-export default function Navbar() {
+export default function Navbar({ user }: { user: User | null }) {
+  const { setUser } = useAuth()
+
+  useEffect(() => {
+    setUser(user)
+  }, [])
+
   return (
     <nav className="sticky top-0 bg-white dark:bg-primary z-50 border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +74,6 @@ export default function Navbar() {
               </NavigationMenuList>
             </NavigationMenu>
             <div className="flex gap-2 text-primary dark:text-secondary">
-              <AnimatedThemeToggler className="cursor-pointer" />
               <Search className="cursor-pointer" />
               <ShoppingCart className="cursor-pointer" />
             </div>

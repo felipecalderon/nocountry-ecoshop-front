@@ -1,12 +1,12 @@
 export enum UserRole {
-  CUSTOMER = 'customer',
-  BRAND_ADMIN = 'brand_admin',
-  ADMIN = 'admin',
+  CUSTOMER = "customer",
+  BRAND_ADMIN = "brand_admin",
+  ADMIN = "admin",
 }
 
 export enum AddressType {
-  SHIPPING = 'shipping',
-  BILLING = 'billing',
+  SHIPPING = "shipping",
+  BILLING = "billing",
 }
 
 export interface Address {
@@ -27,13 +27,13 @@ export interface User {
   lastName: string | null
   nationalId: string | null
   phone: string | null
-  birthDate: Date | null
-  paymentCustomerIds: Record<string, any> | null
+  birthDate: string | null
+  paymentCustomerIds: Record<string, object> | null
   providerId: string | null
   emailVerified: boolean
   isBanned: boolean
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
-  addresses?: Address[]
+  // addresses?: Address[]
 }

@@ -10,7 +10,7 @@ axios.defaults.baseURL = API_URL
  * @param options - Configuración adicional para la solicitud de Axios,
  * @returns Los datos de la respuesta de axios.
  */
-export const fetcher = async (
+export const fetcher = async <T>(
   method: Method,
   url: string,
   options?: AxiosRequestConfig
@@ -23,5 +23,5 @@ export const fetcher = async (
     ...options,
   })
 
-  return res.data
+  return res.data as T
 }

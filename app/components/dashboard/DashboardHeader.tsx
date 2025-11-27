@@ -2,7 +2,7 @@
 
 import { Menu, Bell, LogOut } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
-import { useAuthStore } from "@/stores/useAuthStore"
+import { useAuth } from "@/stores/useAuthStore"
 import { useRouter } from "next/navigation"
 
 interface DashboardHeaderProps {
@@ -14,7 +14,7 @@ export default function DashboardHeader({
   title,
   onMenuClick,
 }: DashboardHeaderProps) {
-  const { user } = useAuthStore()
+  const { user } = useAuth()
   const router = useRouter()
 
   const handleLogout = () => {
