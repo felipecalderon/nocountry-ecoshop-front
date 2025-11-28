@@ -1,22 +1,18 @@
 "use client"
 
-import { CartItem } from "@/stores/cartStore"
+import Link from "next/link"
+import Image from "next/image"
+import { Trash2, Plus, Minus } from "lucide-react"
 import { useCartStore } from "@/stores/cartStore"
 import { Button } from "../ui/button"
-import { Trash2, Plus, Minus } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
+import { CartItemCardProps } from "@/types/cart.types"
 
-interface CartItemCardProps {
-  item: CartItem
-}
-
-export function CartItemCard({ item }: CartItemCardProps) {
+function CartItemCard({ item }: CartItemCardProps) {
   const { updateQuantity, removeItem } = useCartStore()
 
   return (
-    <div className="flex items-center gap-4 border rounded-lg p-4 hover:shadow-md transition-shadow">
-      <Link href={`/products/${item.slug}`} className="shrink-0">
+    <section className="flex items-center gap-4 border rounded-lg p-4 hover:shadow-md transition-shadow dark:bg-gray-800/60">
+      <figure className="shrink-0">
         <Image
           src={item.image}
           alt={item.imageAltText}
@@ -24,24 +20,25 @@ export function CartItemCard({ item }: CartItemCardProps) {
           height={96}
           className="rounded-md object-cover"
         />
-      </Link>
+      </figure>
 
       <div className="flex-1 min-w-0">
-        <Link href={`/products/${item.slug}`}>
-          <h3 className="font-semibold hover:text-primary transition-colors truncate">
+        <Link href={`/store/${item.id}`} title="Ver producto">
+          <h2 className="font-semibold hover:text-primary transition-colors truncate">
             {item.name}
-          </h3>
+          </h2>
         </Link>
         <p className="text-sm text-muted-foreground">SKU: {item.sku}</p>
         <p className="text-lg font-bold mt-1">${item.price.toFixed(2)}</p>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 [&>button]:cursor-pointer [&>button]:dark:hover:text-gray-300">
         <Button
           variant="outline"
           size="icon"
           onClick={() => updateQuantity(item.id, item.quantity - 1)}
           disabled={item.quantity <= 1}
+          aria-label="Decrement quantity"
         >
           <Minus className="h-4 w-4" />
         </Button>
@@ -51,6 +48,7 @@ export function CartItemCard({ item }: CartItemCardProps) {
           size="icon"
           onClick={() => updateQuantity(item.id, item.quantity + 1)}
           disabled={item.quantity >= item.maxStock}
+          aria-label="Increment quantity"
         >
           <Plus className="h-4 w-4" />
         </Button>
@@ -65,10 +63,13 @@ export function CartItemCard({ item }: CartItemCardProps) {
         variant="ghost"
         size="icon"
         onClick={() => removeItem(item.id)}
-        className="text-destructive hover:text-destructive"
+        className="text-destructive hover:text-destructive hover:bg-gray-200 dark:text-red-400 dark:hover:text-gray-200 cursor-pointer"
+        aria-label="Remove item from cart"
       >
         <Trash2 className="h-4 w-4" />
       </Button>
-    </div>
+    </section>
   )
 }
+
+export default CartItemCard
