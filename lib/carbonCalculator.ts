@@ -1,6 +1,5 @@
-import { CartItem } from "@/stores/cartStore"
 import { Product } from "@/app/components/product/product.interface"
-import { CarbonFootprintResult } from "@/types"
+import { CarbonFootprintResult, CartItem } from "@/types"
 
 export function calculateProductCarbonFootprint(product: Product): {
   co2: number
