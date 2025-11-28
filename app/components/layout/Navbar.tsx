@@ -8,7 +8,6 @@ import {
 import Link from "next/link"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
-import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 import { Search } from "lucide-react"
 import { User } from "@/types"
 import { useAuth } from "@/stores/useAuthStore"
