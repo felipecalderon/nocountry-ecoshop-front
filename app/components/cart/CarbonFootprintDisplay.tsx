@@ -1,5 +1,9 @@
 "use client"
 
+import { Earth, Droplet, Factory, Info, HeartHandshake } from "lucide-react"
+import ImpactLevel from "./ImpactLevel"
+import MetricCard from "./MetricCard"
+import ProductBreakdown from "./ProductBreakdown"
 import {
   Card,
   CardContent,
@@ -7,25 +11,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card"
-import { Badge } from "@/app/components/ui/badge"
-import { Progress } from "@/app/components/ui/progress"
-import { Earth, Droplet, Factory, Info, HeartHandshake } from "lucide-react"
-import {
-  CarbonFootprintResult,
-  getCarbonImpactLevel,
-  getCarbonEquivalence,
-} from "@/lib/carbonCalculator"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/app/components/ui/tooltip"
-
-interface CarbonFootprintDisplayProps {
-  footprint: CarbonFootprintResult
-  showBreakdown?: boolean
-}
+import {
+  getCarbonImpactLevel,
+  getCarbonEquivalence,
+} from "@/lib/carbonCalculator"
+import { CarbonFootprintDisplayProps } from "@/types"
 
 function CarbonFootprintDisplay({
   footprint,
@@ -38,7 +34,7 @@ function CarbonFootprintDisplay({
   const progressPercent = Math.min((totalCO2 / 10) * 100, 100)
 
   return (
-    <Card className="bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950">
+    <Card className="bg-linear-to-br from-green-50 to-emerald-50 dark:from-gray-800/60 dark:to-gray-800/60">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
@@ -46,9 +42,9 @@ function CarbonFootprintDisplay({
             Impacto Ambiental
           </CardTitle>
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <Info className="h-5 w-5 text-muted-foreground" />
+            <Tooltip aria-label="Tooltip">
+              <TooltipTrigger aria-label="Tooltip trigger">
+                <Info className="h-5 w-5 text-blue-500" />
               </TooltipTrigger>
               <TooltipContent>
                 <p className="text-xs">
@@ -63,45 +59,26 @@ function CarbonFootprintDisplay({
       </CardHeader>
 
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Factory className="h-4 w-4 text-green-600" />
-              <span className="text-sm font-medium">Emisiones CO₂</span>
-            </div>
-            <div>
-              <p className="text-3xl font-bold">{totalCO2.toFixed(2)}</p>
-              <p className="text-xs text-muted-foreground">kg CO₂ equiv.</p>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Droplet className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium">Uso de agua</span>
-            </div>
-            <div>
-              <p className="text-3xl font-bold">{totalWater.toFixed(2)}</p>
-              <p className="text-xs text-muted-foreground">litros</p>
-            </div>
-          </div>
+        <div className="grid grid-cols-2 gap-4 space-y-2">
+          <MetricCard
+            icon={Factory}
+            label="Emisiones CO₂"
+            value={totalCO2.toFixed(2)}
+            unit="kg CO₂ equiv."
+            iconColor="text-gray-600 dark:text-gray-400"
+          />
+          <MetricCard
+            icon={Droplet}
+            label="Uso de agua"
+            value={totalWater.toFixed(2)}
+            unit="litros"
+            iconColor="text-blue-600"
+          />
         </div>
 
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium">Nivel de impacto</span>
-            <Badge
-              variant={impact.level === "low" ? "default" : "secondary"}
-              className={impact.color}
-            >
-              {impact.label}
-            </Badge>
-          </div>
-          <Progress value={progressPercent} className="h-2" />
-          <p className="text-xs text-muted-foreground">{impact.description}</p>
-        </div>
+        <ImpactLevel impact={impact} progressPercent={progressPercent} />
 
-        <div className="space-y-2">
+        <section className="space-y-2">
           <p className="text-sm font-medium">Equivalente a:</p>
           <ul className="space-y-1">
             {equivalences.map((equiv, idx) => (
@@ -114,27 +91,10 @@ function CarbonFootprintDisplay({
               </li>
             ))}
           </ul>
-        </div>
+        </section>
 
         {showBreakdown && breakdown.length > 0 && (
-          <div className="space-y-2 pt-4 border-t">
-            <p className="text-sm font-medium">Desglose por producto:</p>
-            <div className="space-y-2">
-              {breakdown.map((item) => (
-                <div
-                  key={item.productId}
-                  className="flex justify-between text-xs"
-                >
-                  <span className="text-muted-foreground truncate flex-1">
-                    {item.productName} (x{item.quantity})
-                  </span>
-                  <span className="font-medium ml-2">
-                    {item.subtotalCO2.toFixed(2)} kg CO₂
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
+          <ProductBreakdown breakdown={breakdown} />
         )}
 
         <div className="bg-green-100 dark:bg-green-900 p-3 rounded-lg">
