@@ -8,6 +8,6 @@ export const auth0 = new Auth0Client({
   domain: process.env.AUTH0_DOMAIN!,
   authorizationParameters: {
     audience: process.env.AUTH0_AUDIENCE,
-    scope: "openid email",
+    scope: "openid profile email",
   },
 })
