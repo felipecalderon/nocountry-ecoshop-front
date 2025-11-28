@@ -31,8 +31,13 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await auth0.getSession()
+  // console.log(session)
   const { accessToken } = session ? session.tokenSet : { accessToken: "" }
-  const user = await loginUser(accessToken)
+  let user = null
+  if (accessToken) {
+    user = await loginUser(accessToken)
+  }
+  console.log({ accessToken })
   return (
     <html lang="es">
       <body

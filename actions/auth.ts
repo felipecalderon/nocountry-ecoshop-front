@@ -15,7 +15,7 @@ export const loginUser = async (accessToken: string) => {
     })
     return res.user
   } catch (error) {
-    // console.log(error)
+    console.log(error)
     return null
   }
 }

@@ -11,19 +11,15 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu"
 import { User } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { Button } from "../ui/button"
-import Link from "next/link"
 
 export default function UserMenu() {
-  const { push } = useRouter()
   const { user } = useAuth()
   if (!user)
     return (
-      <User
-        className="cursor-pointer mt-1"
-        onClick={() => push("/auth/login")}
-      />
+      <a href="/auth/login">
+        <User className="cursor-pointer mt-1" />
+      </a>
     )
   return (
     <DropdownMenu>
@@ -44,9 +40,9 @@ export default function UserMenu() {
           <DropdownMenuItem>Perfil</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <Link href="/auth/logout">
+        <a href="/auth/logout">
           <DropdownMenuItem>Cerrar Sesión</DropdownMenuItem>
-        </Link>
+        </a>
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -10,7 +10,7 @@ export default function TopNavbar() {
           Envío gratis por compras superiores a $50 USD
         </p>
       </div>
-      <div className="absolute flex gap-3 right-3 sm:right-6 md:right-9 lg:right-36 top-2 text-primary dark:text-white">
+      <div className="absolute flex gap-3 right-2 sm:right-5 md:right-7 lg:right-9 xl:right-36 top-2 text-primary dark:text-white">
         <UserMenu />
         <AnimatedThemeToggler className="cursor-pointer mt-1" />
       </div>
