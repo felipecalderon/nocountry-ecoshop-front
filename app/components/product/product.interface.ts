@@ -63,3 +63,5 @@ export interface Product {
   materialComposition: MaterialComposition[]
   certifications: Certification[]
 }
+
+export type ProductProps = { product: Product }

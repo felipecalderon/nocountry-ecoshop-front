@@ -1,13 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
-import { Button } from "@/app/components/ui/button"
-import { Input } from "@/app/components/ui/input"
 import { Badge } from "@/app/components/ui/badge"
 import { Separator } from "@/app/components/ui/separator"
 import { Card, CardContent } from "@/app/components/ui/card"
-import { Label } from "@/app/components/ui/label"
-import { Truck, ShoppingCart, Leaf, Info, Sprout } from "lucide-react"
+import AddToCartButton from "./AddToCartButton"
+import { Truck, Leaf, Info, Sprout } from "lucide-react"
 import { Product } from "./product.interface"
 import BadgeLevel from "../BadgeLevel"
 import BadgeRecyclability from "../BadgeRecyclability"
@@ -20,30 +17,6 @@ import {
 import Image from "next/image"
 
 export default function ProductSingleClient({ product }: { product: Product }) {
-  const [quantity, setQuantity] = useState(1)
-  const maxStock = product.stock > 0 ? product.stock : 1
-
-  const handleQuantityChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(event.target.value, 10)
-    if (!isNaN(value) && value >= 1) {
-      setQuantity(Math.min(value, maxStock))
-    } else if (event.target.value === "") {
-      setQuantity(1)
-    }
-  }
-
-  const incrementQuantity = () => {
-    setQuantity((prev) => Math.min(prev + 1, maxStock))
-  }
-
-  const decrementQuantity = () => {
-    setQuantity((prev) => Math.max(prev - 1, 1))
-  }
-
-  const handleAddToCart = () => {
-    console.log(`Añadido ${quantity} unidad de ${product.name}.`)
-  }
-
   return (
     <>
       <Card className="border-0 shadow-none">
@@ -107,51 +80,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                 {product.description.substring(0, 150)}...
               </p>
 
-              <div className="flex items-end space-x-4 pt-4">
-                <div className="flex flex-col space-y-2">
-                  <Label htmlFor="quantity">Cantidad</Label>
-                  <div className="flex space-x-1">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className={quantity <= 1 ? "" : "cursor-pointer"}
-                      onClick={decrementQuantity}
-                      disabled={quantity <= 1}
-                    >
-                      -
-                    </Button>
-                    <Input
-                      id="quantity"
-                      type="number"
-                      min="1"
-                      max={maxStock}
-                      value={quantity}
-                      onChange={handleQuantityChange}
-                      className="w-20 text-center"
-                    />
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      onClick={incrementQuantity}
-                      className="cursor-pointer"
-                      disabled={quantity >= maxStock}
-                    >
-                      +
-                    </Button>
-                  </div>
-                </div>
-
-                <Button
-                  onClick={handleAddToCart}
-                  disabled={product.stock <= 0}
-                  className="flex-1 max-w-xs dark:bg-white dark:hover:bg-gray-200 dark:text-primary cursor-pointer"
-                >
-                  <ShoppingCart className="mr-2 h-4 w-4" />
-                  {product.stock > 0
-                    ? `Añadir al Carrito (${quantity})`
-                    : "Agotado"}
-                </Button>
-              </div>
+              <AddToCartButton product={product} />
 
               {product.stock > 0 && (
                 <div className="flex flex-row items-center gap-2">

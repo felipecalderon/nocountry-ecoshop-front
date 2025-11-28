@@ -43,7 +43,7 @@ function Footer() {
         </div>
       </section>
 
-      <section className="max-w-7xl px-4 sm:px-6 lg:px-8 py-6 border-t border-stone-400">
+      <section className="max-w-7xl px-4 sm:px-6 lg:px-8 py-6 border-t border-stone-400 mx-auto">
         <article className="flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 text-sm font-medium">
             © 2025 Ecoshop. Todos los derechos reservados.
