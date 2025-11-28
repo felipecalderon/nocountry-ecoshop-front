@@ -5,6 +5,9 @@ import "./globals.css"
 import Footer from "./components/Footer"
 import Navbar from "./components/layout/Navbar"
 import TopNavbar from "./components/layout/TopNavbar"
+import { auth0 } from "@/lib/auth0"
+import { fetcher } from "@/lib/fetcher"
+import { loginUser } from "@/actions/auth"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,11 +25,14 @@ export const metadata: Metadata = {
     "EcoShop es una plataforma de comercio electrónico enfocada en productos sostenibles, que permite visualizar el impacto ambiental de cada compra. Integra indicadores ecológicos, trazabilidad y una experiencia de usuario moderna orientada al consumo responsable.",
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await auth0.getSession()
+  const { accessToken } = session ? session.tokenSet : { accessToken: "" }
+  const user = await loginUser(accessToken)
   return (
     <html lang="es">
       <body
@@ -34,7 +40,7 @@ export default function RootLayout({
       >
         <div className="flex flex-col min-h-screen bg-background">
           <TopNavbar />
-          <Navbar />
+          <Navbar user={user} />
           <main className="flex-1 max-w-7xl w-full mx-auto py-8">
             {children}
           </main>
