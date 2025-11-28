@@ -1,19 +1,6 @@
-import { Product } from "@/app/components/product/product.interface"
 import { CartItem } from "@/stores/cartStore"
-
-export interface CarbonFootprintResult {
-  totalCO2: number
-  totalWater: number
-  breakdown: {
-    productId: string
-    productName: string
-    quantity: number
-    co2PerUnit: number
-    waterPerUnit: number
-    subtotalCO2: number
-    subtotalWater: number
-  }[]
-}
+import { Product } from "@/app/components/product/product.interface"
+import { CarbonFootprintResult } from "@/types"
 
 export function calculateProductCarbonFootprint(product: Product): {
   co2: number
@@ -90,21 +77,21 @@ export function getCarbonImpactLevel(co2: number): {
     return {
       level: "low",
       label: "Impacto Bajo",
-      color: "text-green-600",
+      color: "text-green-800 dark:text-green-200",
       description: "¡Excelente elección! Tu compra tiene un impacto mínimo.",
     }
   } else if (co2 < 5) {
     return {
       level: "medium",
       label: "Impacto Moderado",
-      color: "text-yellow-600",
+      color: "text-yellow-600 dark:text-gray-800",
       description: "Tu compra tiene un impacto moderado en el medio ambiente.",
     }
   } else {
     return {
       level: "high",
       label: "Impacto Alto",
-      color: "text-red-600",
+      color: "text-red-500 dark:text-red-800",
       description: "Considera agregar más productos eco-friendly.",
     }
   }
