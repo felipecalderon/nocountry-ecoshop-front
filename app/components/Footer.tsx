@@ -1,4 +1,5 @@
 import Image from "next/image"
+import { TooltipProvider } from "@/app/components/ui/tooltip"
 import SocialIconLink from "./ui/SocialIconLink"
 import ItemLinkColumn from "./ui/ItemLinkColumn"
 import { footerColumns } from "@/lib/data/footerLinks"
@@ -7,7 +8,7 @@ import { socialIconLinks } from "@/lib/data/socials"
 function Footer() {
   return (
     <footer
-      className="bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom"
+      className="bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-black/40"
       id="footer"
     >
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -50,17 +51,19 @@ function Footer() {
           </p>
 
           <aside className="flex gap-3">
-            {socialIconLinks.map(
-              ({ href, IconComponent, label, hoverClass }) => (
-                <SocialIconLink
-                  key={label}
-                  href={href}
-                  IconComponent={IconComponent}
-                  label={label}
-                  hoverClass={hoverClass}
-                />
-              )
-            )}
+            <TooltipProvider>
+              {socialIconLinks.map(
+                ({ href, IconComponent, label, hoverClass }) => (
+                  <SocialIconLink
+                    key={label}
+                    href={href}
+                    IconComponent={IconComponent}
+                    label={label}
+                    hoverClass={hoverClass}
+                  />
+                )
+              )}
+            </TooltipProvider>
           </aside>
         </article>
       </section>
