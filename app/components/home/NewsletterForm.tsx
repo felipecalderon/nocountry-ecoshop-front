@@ -12,7 +12,7 @@ function NewsletterForm({ className }: NewsletterFormProps) {
   return (
     <form className={className} onSubmit={handleSubmit}>
       <div className="relative flex-1 border border-gray-300 rounded-full sm:border-none">
-        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 z-10" />
+        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4 z-10 dark:text-black" />
         <Input
           id="email"
           name="email"
@@ -20,7 +20,7 @@ function NewsletterForm({ className }: NewsletterFormProps) {
           placeholder="Tu email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="pl-10 h-12 rounded-full border-none"
+          className="pl-10 h-12 rounded-full border-none dark:bg-gray-100 dark:text-black dark:placeholder-gray-500"
           required
           autoComplete="off"
         />

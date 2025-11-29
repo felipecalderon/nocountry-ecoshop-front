@@ -46,7 +46,7 @@ function HeroBannerSlider() {
                       <Button
                         asChild
                         size="lg"
-                        className="bg-primary dark:bg-secondary dark:text-white mb-2"
+                        className="bg-primary dark:bg-secondary dark:text-white mb-2 dark:hover:bg-secondary/80"
                       >
                         <Link href={slide.buttonLink}>{slide.buttonText}</Link>
                       </Button>
@@ -72,11 +72,11 @@ function HeroBannerSlider() {
         <CarouselNext className="right-4 border-none cursor-pointer hover:text-white" />
       </Carousel>
 
-      <div className="absolute flex justify-center gap-2 md:bottom-4 left-1/2 -translate-x-1/2 z-10">
+      <div className="absolute flex justify-center gap-2.5 md:bottom-4 left-1/2 -translate-x-1/2 z-10">
         {Array.from({ length: count }).map((_, index) => (
           <button
             key={index}
-            className={`h-2 w-2 rounded-full transition-all ${
+            className={`h-2.5 w-2.5 rounded-full transition-all cursor-pointer ${
               index === current
                 ? "bg-secondary w-8"
                 : "bg-gray-300 hover:bg-gray-400"

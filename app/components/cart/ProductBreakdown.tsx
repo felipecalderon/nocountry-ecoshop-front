@@ -9,7 +9,7 @@ function ProductBreakdown({ breakdown }: ProductBreakdownProps) {
       <ul className="space-y-2">
         {breakdown.map((item) => (
           <li key={item.productId} className="flex justify-between text-xs">
-            <p className="text-gray-500 truncate flex-1">
+            <p className="text-gray-500 truncate flex-1 dark:text-neutral-400">
               {item.productName} (x{item.quantity})
             </p>
             <p className="font-medium ml-2">

@@ -46,7 +46,7 @@ export default async function RootLayout({
         <div className="flex flex-col min-h-screen bg-background">
           <TopNavbar />
           <Navbar user={user} />
-          <main className="flex-1 max-w-7xl w-full mx-auto py-8">
+          <main className="flex-1 max-w-7xl w-full mx-auto pt-8">
             {children}
           </main>
           <Footer />
