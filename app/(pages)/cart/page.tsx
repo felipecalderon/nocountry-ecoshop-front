@@ -7,7 +7,7 @@ import CartItemCard from "@/app/components/cart/CartItemCard"
 import CartSummary from "@/app/components/cart/CartSummary"
 import CarbonFootprintDisplay from "@/app/components/cart/CarbonFootprintDisplay"
 import { Button } from "@/app/components/ui/button"
-import { demoProducts } from "@/app/components/product/demo-products"
+import { demoProducts } from "@/lib/data/demo-products"
 import { calculateCartCarbonFootprint } from "@/lib/carbonCalculator"
 
 export default function CartPage() {
