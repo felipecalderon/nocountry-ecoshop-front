@@ -1,5 +1,5 @@
 import { Leaf } from "lucide-react"
-import { EcoBadgeLevel } from "./product/product.interface"
+import { EcoBadgeLevel } from "@/types/product.types"
 import { Badge } from "./ui/badge"
 
 export default function BadgeLevel({ level }: { level: EcoBadgeLevel }) {

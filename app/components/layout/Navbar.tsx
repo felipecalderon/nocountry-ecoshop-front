@@ -5,7 +5,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from "@/app/components/ui/navigation-menu"
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
 import { Search } from "lucide-react"
@@ -22,7 +22,10 @@ export default function Navbar({ user }: { user: User | null }) {
   }, [])
 
   return (
-    <nav className="sticky top-0 bg-white dark:bg-primary z-50 border-b border-border shadow-sm">
+    <nav
+      className="sticky top-0 bg-white dark:bg-primary z-50 border-b border-border shadow-sm"
+      style={{ viewTransitionName: "none" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

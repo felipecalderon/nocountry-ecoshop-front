@@ -5,11 +5,11 @@ import { toast } from "sonner"
 import { ShoppingCart, Check, Minus, Plus } from "lucide-react"
 import { useCartStore } from "@/stores/cartStore"
 import { Button } from "../ui/button"
-import { ProductProps } from "./product.interface"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
+import { Product } from "@/types/product.types"
 
-function AddToCartButton({ product }: ProductProps) {
+function AddToCartButton({ product }: { product: Product }) {
   const { addItem, isInCart, getItemQuantity, updateQuantity } = useCartStore()
   const [isAdding, setIsAdding] = useState(false)
 

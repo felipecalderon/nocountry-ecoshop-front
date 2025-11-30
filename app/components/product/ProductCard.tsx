@@ -11,13 +11,13 @@ import {
   CardTitle,
 } from "../ui/card"
 import { MagicCard } from "../ui/magic-card"
-import { ProductProps } from "./product.interface"
+import { Product } from "@/types/product.types"
 import { ShoppingCart } from "lucide-react"
-import { useRouter } from "next/navigation"
+import { useTransitionRouter } from "next-view-transitions"
 import { useCartStore } from "@/stores/cartStore"
 
-export default function ProductCard({ product }: ProductProps) {
-  const router = useRouter()
+export default function ProductCard({ product }: { product: Product }) {
+  const router = useTransitionRouter()
   const { addItem } = useCartStore()
 
   const goToProduct = () => {
@@ -47,11 +47,12 @@ export default function ProductCard({ product }: ProductProps) {
             title="Ver detalles del producto"
           >
             <Image
-              src="/product-noimg.jpg"
-              alt=""
+              src={"/product-noimg.jpg"}
+              alt={product.imageAltText || product.name}
               width={200}
               height={200}
               className="mx-auto rounded-md"
+              style={{ viewTransitionName: `product-image-${product.id}` }}
             />
             <CardTitle>{product.name}</CardTitle>
             <CardDescription>{product.description}</CardDescription>

@@ -2,13 +2,10 @@
 
 import { Button } from "@/app/components/ui/button"
 import { Menu, Search, ShoppingCart, X } from "lucide-react"
-import Link from "next/link"
+import { Link } from "next-view-transitions"
 import { useState } from "react"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
 
-/**
- * Menú mobile - TODO: Agregar animaciones
- */
 export default function MobileNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
