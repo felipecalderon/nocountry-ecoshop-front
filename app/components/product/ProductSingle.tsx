@@ -5,7 +5,7 @@ import { Separator } from "@/app/components/ui/separator"
 import { Card, CardContent } from "@/app/components/ui/card"
 import AddToCartButton from "./AddToCartButton"
 import { Truck, Leaf, Info, Sprout } from "lucide-react"
-import { Product } from "./product.interface"
+import { Product } from "@/types/product.types"
 import BadgeLevel from "../BadgeLevel"
 import BadgeRecyclability from "../BadgeRecyclability"
 import {
@@ -25,11 +25,12 @@ export default function ProductSingleClient({ product }: { product: Product }) {
             <div className="w-full">
               <div className="relative aspect-square overflow-hidden rounded-lg shadow-xl">
                 <Image
-                  src={product.image}
+                  src="/product-noimg.jpg"
                   alt={product.imageAltText || product.name}
                   width={600}
                   height={600}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  style={{ viewTransitionName: `product-image-${product.id}` }}
                 />
               </div>
             </div>

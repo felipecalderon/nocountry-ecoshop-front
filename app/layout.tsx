@@ -6,8 +6,8 @@ import Footer from "./components/Footer"
 import Navbar from "./components/layout/Navbar"
 import TopNavbar from "./components/layout/TopNavbar"
 import { auth0 } from "@/lib/auth0"
-import { fetcher } from "@/lib/fetcher"
 import { loginUser } from "@/actions/auth"
+import { ViewTransitions } from "next-view-transitions"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,20 +39,22 @@ export default async function RootLayout({
   }
   console.log({ accessToken })
   return (
-    <html lang="es">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="flex flex-col min-h-screen bg-background">
-          <TopNavbar />
-          <Navbar user={user} />
-          <main className="flex-1 max-w-7xl w-full mx-auto pt-8">
-            {children}
-          </main>
-          <Footer />
-        </div>
-        <Toaster richColors closeButton expand position="bottom-left" />
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="es">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <div className="flex flex-col min-h-screen bg-background">
+            <TopNavbar />
+            <Navbar user={user} />
+            <main className="flex-1 max-w-7xl w-full mx-auto pt-8">
+              {children}
+            </main>
+            <Footer />
+          </div>
+          <Toaster richColors closeButton expand position="bottom-left" />
+        </body>
+      </html>
+    </ViewTransitions>
   )
 }

@@ -4,7 +4,10 @@ import UserMenu from "../auth/UserMenu"
 
 export default function TopNavbar() {
   return (
-    <nav className="sticky flex top-0 z-40 bg-secondary">
+    <nav
+      className="sticky flex top-0 z-40 bg-secondary"
+      style={{ viewTransitionName: "none" }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
         <p className="text-sm md:text-center font-semibold text-white dark:text-primary">
           Envío gratis por compras superiores a $50 USD
