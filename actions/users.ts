@@ -24,7 +24,7 @@ export const getProfile = async () => {
 export const updateProfile = async (data: Partial<User>) => {
   try {
     const { token } = await auth0.getAccessToken()
-    return await fetcher<User>("PATCH", "/users/profile", {
+    return await fetcher<{ data: User }>("PATCH", "/users/profile", {
       data,
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -40,7 +40,7 @@ export const uploadProfileImage = async (file: File) => {
   const { token } = await auth0.getAccessToken()
 
   try {
-    return await fetcher<User>("POST", "/users/profile/image", {
+    return await fetcher<{ data: User }>("POST", "/users/profile/image", {
       data: formData,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -56,7 +56,7 @@ export const uploadProfileImage = async (file: File) => {
 export const getImpactStats = async () => {
   try {
     const { token } = await auth0.getAccessToken()
-    return await fetcher<any>("GET", "/users/dashboard/impact", {
+    return await fetcher<{ data: User }>("GET", "/users/dashboard/impact", {
       headers: { Authorization: `Bearer ${token}` },
     })
   } catch (error) {
