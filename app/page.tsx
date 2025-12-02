@@ -17,7 +17,7 @@ export default async function Home() {
       </div>
       <div className="flex justify-center mb-10">
         <Link href="/store">
-          <Button variant="outline">Ver todos los productos</Button>
+          <Button>Ver todos los productos</Button>
         </Link>
       </div>
       <WhyChooseUs />

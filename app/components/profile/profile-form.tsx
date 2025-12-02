@@ -64,7 +64,7 @@ export function ProfileForm() {
     try {
       const updatedUser = await updateProfile(formData)
       if (updatedUser) {
-        setUser(updatedUser)
+        setUser(updatedUser.data)
         alert("Profile updated successfully!")
       }
     } catch (error) {
@@ -76,7 +76,7 @@ export function ProfileForm() {
   }
 
   if (loading || isPending) {
-    return <div>Loading profile...</div>
+    return <div>Cargando...</div>
   }
 
   return (
@@ -115,8 +115,8 @@ export function ProfileForm() {
           </div>
         </CardContent>
         <CardFooter>
-          <Button type="submit" disabled={saving}>
-            {saving ? "Saving..." : "Save Changes"}
+          <Button type="submit" disabled={saving} className="mt-6">
+            {saving ? "Guardando..." : "Guardar"}
           </Button>
         </CardFooter>
       </form>

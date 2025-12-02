@@ -43,11 +43,7 @@ function HeroBannerSlider() {
                       <p className="text-base md:text-lg lg:text-xl text-gray-700 mb-6 md:mb-8 dark:text-gray-200 lg:max-w-10/12 lg:mx-auto">
                         {slide.subtitle}
                       </p>
-                      <Button
-                        asChild
-                        size="lg"
-                        className="bg-primary dark:bg-secondary dark:text-white mb-2 dark:hover:bg-secondary/80"
-                      >
+                      <Button asChild size="lg">
                         <Link href={slide.buttonLink}>{slide.buttonText}</Link>
                       </Button>
                     </section>
