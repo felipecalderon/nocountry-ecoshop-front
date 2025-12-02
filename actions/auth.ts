@@ -8,12 +8,16 @@ export interface SuccessLoginResponse {
 
 export const loginUser = async (accessToken: string) => {
   try {
-    const res = await fetcher<SuccessLoginResponse>("POST", "/auth/login", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    return res.user
+    const res = await fetcher<{ data: SuccessLoginResponse }>(
+      "POST",
+      "/auth/login",
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+    return res.data.user
   } catch (error) {
     console.log(error)
     return null

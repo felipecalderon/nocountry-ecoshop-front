@@ -1,4 +1,3 @@
-import { getProductById } from "@/actions/products"
 import { demoProducts } from "@/lib/data/demo-products"
 import ProductSingleClient from "@/app/components/product/ProductSingle"
 

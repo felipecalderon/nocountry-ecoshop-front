@@ -12,6 +12,7 @@ import {
 } from "../ui/dropdown-menu"
 import { User } from "lucide-react"
 import { Button } from "../ui/button"
+import { Link } from "next-view-transitions"
 
 export default function UserMenu() {
   const { user } = useAuth()
@@ -34,7 +35,9 @@ export default function UserMenu() {
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>Dashboard</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href="/dashboard">Dashboard</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Mis Pedidos</DropdownMenuItem>
           <DropdownMenuItem>Favoritos</DropdownMenuItem>
           <DropdownMenuItem>Perfil</DropdownMenuItem>
