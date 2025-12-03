@@ -6,13 +6,13 @@ import {
   CreateAddressDto,
   AddressResponse,
   AddressesCache,
+  AddressesResponse,
 } from "@/types"
 import {
   getAddresses,
   getAddress,
   createAddress,
   deleteAddress,
-  AddressesResponse,
 } from "@/actions/addresses"
 import { toast } from "sonner"
 
