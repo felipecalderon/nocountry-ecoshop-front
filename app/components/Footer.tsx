@@ -8,7 +8,7 @@ import { socialIconLinks } from "@/lib/data/socials"
 function Footer() {
   return (
     <footer
-      className="bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-black/40"
+      className="bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-black/40 shadow-2xl border-t border-stone-200 dark:border-neutral-800/80"
       id="footer"
     >
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
