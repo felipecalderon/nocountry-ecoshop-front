@@ -1,5 +1,6 @@
 import { fetcher } from "@/lib/fetcher"
 import { CreateCertificationDto } from "@/types"
+import { auth0 } from "@/lib/auth0"
 
 export const createCertification = async (data: CreateCertificationDto) => {
   const formData = new FormData()
@@ -8,9 +9,13 @@ export const createCertification = async (data: CreateCertificationDto) => {
   if (data.file) formData.append("file", data.file)
 
   try {
+    const { token } = await auth0.getAccessToken()
     return await fetcher("POST", "/certifications", {
       data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
     })
   } catch (error) {
     console.error("Error creating certification:", error)

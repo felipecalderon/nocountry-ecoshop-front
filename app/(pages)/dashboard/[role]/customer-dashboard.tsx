@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useState } from "react"
 import StatsWidget from "@/app/components/dashboard/StatsWidget"
 import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import {
@@ -10,15 +11,12 @@ import {
   Heart,
   Package,
 } from "lucide-react"
-import {
-  mockCustomerStats,
-  mockCustomerOrders,
-  mockFavoriteProducts,
-  mockRecommendedProducts,
-} from "@/lib/data/mockCustomerData"
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
 import Link from "next/link"
+import { getImpactStats } from "@/actions/users"
+import { getOrders } from "@/actions/orders"
+import { ImpactStatsDto } from "@/types"
 
 const statusColors = {
   pending:
@@ -29,6 +27,9 @@ const statusColors = {
   delivered:
     "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
   cancelled: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
+  paid: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
+  completed:
+    "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
 }
 
 const statusLabels = {
@@ -37,190 +38,167 @@ const statusLabels = {
   shipped: "Enviado",
   delivered: "Entregado",
   cancelled: "Cancelado",
+  paid: "Pagado",
+  completed: "Completado",
 }
 
 export default function CustomerDashboard() {
+  const [impactStats, setImpactStats] = useState<ImpactStatsDto | null>(null)
+  const [orders, setOrders] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [impactData, ordersData] = await Promise.all([
+          getImpactStats(),
+          getOrders(),
+        ])
+
+        if (impactData?.data) {
+          setImpactStats(impactData.data)
+        }
+
+        if (ordersData?.data) {
+          setOrders(ordersData.data)
+        }
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-muted-foreground">Cargando...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsWidget
           label="Total de Pedidos"
-          value={mockCustomerStats.totalOrders.toString()}
+          value={impactStats?.totalOrders?.toString() || "0"}
           icon={ShoppingBag}
           iconColor="text-blue-600"
         />
         <StatsWidget
-          label="Total Gastado"
-          value={`$${mockCustomerStats.totalSpent}`}
-          icon={DollarSign}
-          iconColor="text-green-600"
-        />
-        <StatsWidget
-          label="Eco Puntos"
-          value={mockCustomerStats.ecoPoints.toString()}
-          icon={Award}
-          iconColor="text-purple-600"
-        />
-        <StatsWidget
           label="CO₂ Ahorrado"
-          value={`${mockCustomerStats.carbonSaved} kg`}
+          value={`${impactStats?.co2SavedKg || 0} kg`}
           icon={Leaf}
           iconColor="text-green-700"
         />
+        <StatsWidget
+          label="Árboles Equivalentes"
+          value={impactStats?.treesEquivalent?.toString() || "0"}
+          icon={Leaf}
+          iconColor="text-green-600"
+        />
+        <StatsWidget
+          label="Nivel Eco"
+          value={impactStats?.ecoLevel || "🌱 Nuevo"}
+          icon={Award}
+          iconColor="text-purple-600"
+        />
       </div>
 
-      {/* Recent Orders and Favorites */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Orders */}
-        <DashboardCard
-          title="Pedidos Recientes"
-          headerAction={
-            <Link href="/dashboard/customer/orders">
-              <Button variant="ghost" size="sm">
-                Ver todos
-              </Button>
-            </Link>
-          }
-        >
+      {/* Recent Orders */}
+      <DashboardCard
+        title="Pedidos Recientes"
+        headerAction={
+          <Link href="/dashboard/customer/orders">
+            <Button variant="ghost" size="sm">
+              Ver todos
+            </Button>
+          </Link>
+        }
+      >
+        {orders.length === 0 ? (
+          <div className="text-center py-8 text-muted-foreground">
+            No tienes pedidos aún
+          </div>
+        ) : (
           <div className="space-y-4">
-            {mockCustomerOrders.slice(0, 4).map((order) => (
+            {orders.slice(0, 4).map((order: any) => (
               <div
                 key={order.id}
                 className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors cursor-pointer"
               >
                 <div className="flex-1">
                   <p className="font-medium text-foreground">
-                    {order.orderNumber}
+                    Orden #{order.id.slice(0, 8)}
                   </p>
                   <p className="text-sm text-muted-foreground">
-                    {order.itemsCount} producto{order.itemsCount > 1 ? "s" : ""}
+                    {order.items?.length || 0} producto
+                    {order.items?.length !== 1 ? "s" : ""}
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    {order.date.toLocaleDateString("es-AR")}
+                    {new Date(order.createdAt).toLocaleDateString("es-AR")}
                   </p>
                 </div>
                 <div className="text-right">
                   <p className="font-semibold text-foreground">
-                    ${order.total.toFixed(2)}
+                    ${order.totalAmount?.toFixed(2) || "0.00"}
                   </p>
-                  <Badge className={statusColors[order.status]}>
-                    {statusLabels[order.status]}
+                  <Badge
+                    className={
+                      statusColors[order.status as keyof typeof statusColors] ||
+                      statusColors.pending
+                    }
+                  >
+                    {statusLabels[order.status as keyof typeof statusLabels] ||
+                      order.status}
                   </Badge>
                 </div>
               </div>
             ))}
           </div>
-        </DashboardCard>
-
-        {/* Favorites Preview */}
-        <DashboardCard
-          title="Mis Favoritos"
-          headerAction={
-            <Link href="/dashboard/customer/favorites">
-              <Button variant="ghost" size="sm">
-                Ver todos
-              </Button>
-            </Link>
-          }
-        >
-          <div className="space-y-4">
-            {mockFavoriteProducts.slice(0, 4).map((product) => (
-              <div
-                key={product.id}
-                className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors cursor-pointer"
-              >
-                <div className="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center">
-                  <Package className="h-8 w-8 text-primary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-foreground truncate">
-                    {product.name}
-                  </p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <p className="text-sm font-semibold text-green-600">
-                      ${product.price.toFixed(2)}
-                    </p>
-                    {!product.inStock && (
-                      <Badge variant="outline" className="text-xs">
-                        Sin stock
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-                <Heart className="h-5 w-5 text-red-500 fill-red-500" />
-              </div>
-            ))}
-          </div>
-        </DashboardCard>
-      </div>
-
-      {/* Recommended Products */}
-      <DashboardCard
-        title="Recomendado para ti"
-        headerAction={
-          <Button variant="ghost" size="sm">
-            Ver más
-          </Button>
-        }
-      >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {mockRecommendedProducts.map((product) => (
-            <div
-              key={product.id}
-              className="p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors cursor-pointer group"
-            >
-              <div className="flex items-center justify-center w-full h-32 bg-primary/10 rounded-lg mb-3">
-                <Package className="h-12 w-12 text-primary" />
-              </div>
-              <h4 className="font-medium text-foreground mb-2 line-clamp-2 min-h-[2.5rem]">
-                {product.name}
-              </h4>
-              <div className="flex items-center justify-between mb-3">
-                <p className="text-lg font-semibold text-green-600">
-                  ${product.price.toFixed(2)}
-                </p>
-                <div className="flex items-center gap-1">
-                  <Leaf className="h-4 w-4 text-green-600" />
-                  <span className="text-sm font-medium text-green-600">
-                    {product.ecoScore}
-                  </span>
-                </div>
-              </div>
-              <Button className="w-full" size="sm">
-                Agregar al carrito
-              </Button>
-            </div>
-          ))}
-        </div>
+        )}
       </DashboardCard>
 
       {/* Eco Impact Card */}
-      <DashboardCard title="Tu Impacto Ecológico">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="text-center p-6 bg-green-50 dark:bg-green-900/20 rounded-lg">
-            <Leaf className="h-12 w-12 text-green-600 mx-auto mb-3" />
-            <p className="text-3xl font-bold text-green-600 mb-1">
-              {mockCustomerStats.carbonSaved} kg
-            </p>
-            <p className="text-sm text-muted-foreground">CO₂ Ahorrado</p>
+      {impactStats && (
+        <DashboardCard title="Tu Impacto Ecológico">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center p-6 bg-green-50 dark:bg-green-900/20 rounded-lg">
+              <Leaf className="h-12 w-12 text-green-600 mx-auto mb-3" />
+              <p className="text-3xl font-bold text-green-600 mb-1">
+                {impactStats.co2SavedKg} kg
+              </p>
+              <p className="text-sm text-muted-foreground">CO₂ Ahorrado</p>
+            </div>
+            <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+              <Leaf className="h-12 w-12 text-blue-600 mx-auto mb-3" />
+              <p className="text-3xl font-bold text-blue-600 mb-1">
+                {impactStats.treesEquivalent}
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Árboles Equivalentes
+              </p>
+            </div>
+            <div className="text-center p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
+              <Award className="h-12 w-12 text-purple-600 mx-auto mb-3" />
+              <p className="text-3xl font-bold text-purple-600 mb-1">
+                {impactStats.ecoLevel}
+              </p>
+              <p className="text-sm text-muted-foreground">Tu Nivel Eco</p>
+              {impactStats.nextLevelGoal && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Próximo nivel: {impactStats.nextLevelGoal} kg CO₂
+                </p>
+              )}
+            </div>
           </div>
-          <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-            <Award className="h-12 w-12 text-blue-600 mx-auto mb-3" />
-            <p className="text-3xl font-bold text-blue-600 mb-1">
-              {mockCustomerStats.ecoPoints}
-            </p>
-            <p className="text-sm text-muted-foreground">Eco Puntos</p>
-          </div>
-          <div className="text-center p-6 bg-purple-50 dark:bg-purple-900/20 rounded-lg">
-            <ShoppingBag className="h-12 w-12 text-purple-600 mx-auto mb-3" />
-            <p className="text-3xl font-bold text-purple-600 mb-1">
-              {mockCustomerStats.totalOrders}
-            </p>
-            <p className="text-sm text-muted-foreground">Compras Sostenibles</p>
-          </div>
-        </div>
-      </DashboardCard>
+        </DashboardCard>
+      )}
     </div>
   )
 }

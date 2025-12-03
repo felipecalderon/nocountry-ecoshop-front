@@ -1,5 +1,11 @@
 import { fetcher } from "@/lib/fetcher"
-import { CreateBrandDto, BrandStatsDto, UpdateOrderStatusDto } from "@/types"
+import {
+  CreateBrandDto,
+  BrandStatsDto,
+  UpdateOrderStatusDto,
+  OrderItemDto,
+} from "@/types"
+import { auth0 } from "@/lib/auth0"
 
 export const createBrand = async (data: CreateBrandDto) => {
   const formData = new FormData()
@@ -41,9 +47,14 @@ export const createBrand = async (data: CreateBrandDto) => {
       if (value !== undefined) formData.append(key, value as string | Blob)
     })
 
+    const { token } = await auth0.getAccessToken()
+
     return await fetcher("POST", "/brands", {
       data: formData,
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
     })
   } catch (error) {
     console.error("Error creating brand:", error)
@@ -53,7 +64,10 @@ export const createBrand = async (data: CreateBrandDto) => {
 
 export const getMyBrand = async () => {
   try {
-    return await fetcher("GET", "/brands")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher("GET", "/brands", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error fetching my brand:", error)
     return null
@@ -62,10 +76,17 @@ export const getMyBrand = async () => {
 
 export const getBrandOrders = async () => {
   try {
-    return await fetcher("GET", "/brands/orders")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: OrderItemDto[]; totalPages: number }>(
+      "GET",
+      "/brands/orders",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
   } catch (error) {
     console.error("Error fetching brand orders:", error)
-    return []
+    return null
   }
 }
 
@@ -74,7 +95,11 @@ export const updateBrandOrderStatus = async (
   data: UpdateOrderStatusDto
 ) => {
   try {
-    return await fetcher("PATCH", `/brands/orders/${id}/status`, { data })
+    const { token } = await auth0.getAccessToken()
+    return await fetcher("PATCH", `/brands/orders/${id}/status`, {
+      data,
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error(`Error updating order status ${id}:`, error)
     throw error
@@ -83,7 +108,10 @@ export const updateBrandOrderStatus = async (
 
 export const getBrandStats = async () => {
   try {
-    return await fetcher<BrandStatsDto>("GET", "/brands/dashboard/stats")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<BrandStatsDto>("GET", "/brands/dashboard/stats", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error fetching brand stats:", error)
     return null

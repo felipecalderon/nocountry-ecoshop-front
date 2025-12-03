@@ -2,7 +2,7 @@
 
 import { auth0 } from "@/lib/auth0"
 import { fetcher } from "@/lib/fetcher"
-import { User } from "@/types"
+import { User, ImpactStatsDto } from "@/types"
 import { AxiosError } from "axios"
 
 export const getProfile = async () => {
@@ -56,9 +56,13 @@ export const uploadProfileImage = async (file: File) => {
 export const getImpactStats = async () => {
   try {
     const { token } = await auth0.getAccessToken()
-    return await fetcher<{ data: User }>("GET", "/users/dashboard/impact", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    return await fetcher<{ data: ImpactStatsDto }>(
+      "GET",
+      "/users/dashboard/impact",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
   } catch (error) {
     console.error("Error fetching impact stats:", error)
     return null
