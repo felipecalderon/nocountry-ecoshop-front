@@ -24,7 +24,7 @@ function NewsletterSubscription() {
           </CardHeader>
 
           <CardContent className="space-y-4">
-            <NewsletterForm className="flex flex-col sm:flex-row gap-3 sm:border sm:border-gray-300 rounded-full p-1" />
+            <NewsletterForm className="flex flex-col sm:flex-row gap-3 sm:border sm:border-gray-300 rounded-full p-2 pb-0" />
 
             <p className="text-xs text-muted-foreground dark:text-neutral-500">
               Puedes darte de baja en cualquier momento.
