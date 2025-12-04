@@ -6,10 +6,7 @@ import { auth0 } from "@/lib/auth0"
 
 export const getProducts = async () => {
   try {
-    const { token } = await auth0.getAccessToken()
-    return await fetcher<{ data: Product[] }>("GET", "/products", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    return await fetcher<{ data: Product[] }>("GET", "/products")
   } catch (error) {
     console.error("Error fetching products:", error)
     throw error

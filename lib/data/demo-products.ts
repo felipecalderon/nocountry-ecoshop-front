@@ -1,6 +1,6 @@
 import { Product, RecyclabilityStatus } from "@/types/product.types"
 
-export const demoProducts: Product[] = [
+export const demoProducts: any[] = [
   {
     id: "c1f7a0b3-8d2e-4e6f-b1c4-9a3e2f5d6g7h",
     slug: "cepillo-dental-bambu-adulto",
