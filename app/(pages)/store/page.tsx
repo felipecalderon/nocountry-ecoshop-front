@@ -1,4 +1,4 @@
-import { demoProducts } from "@/lib/data/demo-products"
+import { getProducts } from "@/actions/products"
 import ProductCard from "@/app/components/product/ProductCard"
 import ProductFilters from "@/app/components/product/ProductFilters"
 import {
@@ -12,6 +12,8 @@ interface StorePageProps {
 }
 
 export default async function StorePage({ searchParams }: StorePageProps) {
+  const { data: products } = await getProducts()
+  console.log(products)
   const params = await searchParams
   const name = (params.name as string) || ""
   const sku = (params.sku as string) || ""
@@ -20,23 +22,23 @@ export default async function StorePage({ searchParams }: StorePageProps) {
   const ecoBadgeLevel = (params.ecoBadgeLevel as string) || ""
   const material = (params.material as string) || ""
 
-  const filteredProducts = demoProducts.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const matchesName = product.name.toLowerCase().includes(name.toLowerCase())
     const matchesSku = product.sku.toLowerCase().includes(sku.toLowerCase())
-    const matchesCountry = product.originCountry
-      .toLowerCase()
-      .includes(originCountry.toLowerCase())
+    const matchesCountry =
+      product.originCountry &&
+      product.originCountry.toLowerCase().includes(originCountry.toLowerCase())
     const matchesRecyclability =
       !recyclabilityStatus ||
       product.recyclabilityStatus ===
         (recyclabilityStatus as RecyclabilityStatus)
     const matchesEcoBadge =
       !ecoBadgeLevel ||
-      product.enviromentalImpact.ecoBadgeLevel ===
+      product.environmentalImpact.ecoBadgeLevel ===
         (ecoBadgeLevel as EcoBadgeLevel)
     const matchesMaterial =
       !material ||
-      product.materialComposition.some((m: MaterialComposition) =>
+      product.materials.some((m: MaterialComposition) =>
         m.name.toLowerCase().includes(material.toLowerCase())
       )
 

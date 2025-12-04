@@ -1,5 +1,5 @@
 import { Skeleton } from "@/app/components/ui/skeleton"
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
+import DashboardCard from "../dashboard/DashboardCard"
 
 function AddressesLoadingState() {
   return (

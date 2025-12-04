@@ -40,13 +40,10 @@ export const createProduct = async (data: any) => {
 
 export const getProduct = async (term: string) => {
   try {
-    const { token } = await auth0.getAccessToken()
-    return await fetcher<Product>("GET", `/products/${term}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    return await fetcher<{ data: Product }>("GET", `/products/${term}`)
   } catch (error) {
     console.error(`Error fetching product ${term}:`, error)
-    return null
+    throw error
   }
 }
 

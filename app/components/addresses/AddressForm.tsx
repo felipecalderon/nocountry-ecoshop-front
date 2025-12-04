@@ -21,8 +21,8 @@ import {
 } from "@/app/components/ui/form"
 import { useAddressForm } from "@/hooks/useAddressForm"
 
-function AddressForm({ onSuccess, onCancel }: AddressFormProps) {
-  const { form, isSubmitting, onSubmit } = useAddressForm({ onSuccess })
+function AddressForm({ onCancel }: AddressFormProps) {
+  const { form, isSubmitting, onSubmit } = useAddressForm({ onCancel })
 
   return (
     <Form {...form}>

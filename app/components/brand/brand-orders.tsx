@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { Button } from "@/app/components/ui/button"
 import { Badge } from "@/app/components/ui/badge"
 import { getBrandOrders, updateBrandOrderStatus } from "@/actions/brands"
@@ -13,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/ui/select"
+import DashboardCard from "../dashboard/DashboardCard"
 
 const statusColors: Record<string, string> = {
   pending:

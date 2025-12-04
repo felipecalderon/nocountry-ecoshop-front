@@ -2,10 +2,10 @@
 
 import { useEffect, useState } from "react"
 import StatsWidget from "@/app/components/dashboard/StatsWidget"
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { DollarSign, ShoppingBag, Users, Leaf } from "lucide-react"
 import { getDashboardStats } from "@/actions/admin"
 import { AdminStatsDto } from "@/types"
+import DashboardCard from "@/app/components/dashboard/DashboardCard"
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState<AdminStatsDto | null>(null)

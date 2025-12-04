@@ -22,18 +22,12 @@ export interface DetailItemProps {
   value: string | null
 }
 
-export interface UseDeleteAddressConfirmationProps {
-  onConfirm: (id: string) => Promise<void>
-}
-
 export type AddressesCache = AddressesResponse
 
 export interface DeleteConfirmationModalProps {
   isOpen: boolean
   onClose: () => void
-  onConfirm: () => Promise<void>
-  address: Address | null
-  isLoading?: boolean
+  address: Address
 }
 
 export interface AddressFormValues {

@@ -16,10 +16,6 @@ import AddressForm from "./AddressForm"
 function CreateAddressModal() {
   const [open, setOpen] = useState(false)
 
-  const handleSuccess = () => {
-    setOpen(false)
-  }
-
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -35,10 +31,7 @@ function CreateAddressModal() {
             Completa los datos de tu nueva dirección de envío o facturación.
           </DialogDescription>
         </DialogHeader>
-        <AddressForm
-          onSuccess={handleSuccess}
-          onCancel={() => setOpen(false)}
-        />
+        <AddressForm onCancel={() => setOpen(false)} />
       </DialogContent>
     </Dialog>
   )

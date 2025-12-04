@@ -1,6 +1,5 @@
 import HeroBannerSlider from "./components/home/HeroBannerSlider"
 import ProductCard from "./components/product/ProductCard"
-import { demoProducts } from "../lib/data/demo-products"
 import WhyChooseUs from "./components/home/WhyChooseUs"
 import NewsletterSubscription from "./components/home/NewsletterSubscription"
 import { Button } from "./components/ui/button"

@@ -1,5 +1,5 @@
-import { demoProducts } from "@/lib/data/demo-products"
 import ProductSingleClient from "@/app/components/product/ProductSingle"
+import { getProduct } from "@/actions/products"
 
 interface PageProps {
   params: Promise<{
@@ -9,8 +9,8 @@ interface PageProps {
 
 export default async function SingleProductPage({ params }: PageProps) {
   const { productId } = await params
-  // const product = await getProductById(productId)
-  const product = demoProducts.find((p) => p.id === productId)
+  const { data: product } = await getProduct(productId)
+  console.log(product)
   if (!product) return <p>Producto no encontrado</p>
   return <ProductSingleClient product={product} />
 }

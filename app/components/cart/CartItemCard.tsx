@@ -29,7 +29,7 @@ function CartItemCard({ item }: CartItemCardProps) {
           </h2>
         </Link>
         <p className="text-sm text-muted-foreground">SKU: {item.sku}</p>
-        <p className="text-lg font-bold mt-1">${item.price.toFixed(2)}</p>
+        <p className="text-lg font-bold mt-1">${item.price} USD</p>
       </div>
 
       <div className="flex items-center gap-2 [&>button]:cursor-pointer [&>button]:dark:hover:text-gray-300">
@@ -56,7 +56,9 @@ function CartItemCard({ item }: CartItemCardProps) {
 
       <div className="text-right min-w-20">
         <p className="text-sm text-muted-foreground">Subtotal</p>
-        <p className="font-bold">${(item.price * item.quantity).toFixed(2)}</p>
+        <p className="font-bold">
+          ${(Number(item.price) * item.quantity).toFixed(2)}
+        </p>
       </div>
 
       <Button

@@ -1,12 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { Button } from "@/app/components/ui/button"
 import { Badge } from "@/app/components/ui/badge"
 import { RespUsersFromAdmin, toggleUserBan } from "@/actions/admin"
 import { User, ShieldOff, ShieldCheck } from "lucide-react"
 import { User as IUser } from "@/types"
+import DashboardCard from "../dashboard/DashboardCard"
 
 export default function UsersTable({ res }: { res: RespUsersFromAdmin }) {
   const [page, setPage] = useState(1)
