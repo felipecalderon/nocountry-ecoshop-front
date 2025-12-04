@@ -132,7 +132,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                           material.isEcoFriendly ? "bg-green-500" : "bg-red-500"
                         }`}
                       ></span>
-                      {material.material}
+                      {material.name}
                     </span>
                     <div className="text-right">
                       <span className="font-bold text-lg">

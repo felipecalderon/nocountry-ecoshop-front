@@ -36,7 +36,7 @@ export interface EnviromentalImpact {
  */
 export interface MaterialComposition {
   id: string
-  material: string
+  name: string
   percentage: number
   isEcoFriendly: boolean
   carbonFootprint: number
@@ -62,4 +62,23 @@ export interface Product {
   enviromentalImpact: EnviromentalImpact
   materialComposition: MaterialComposition[]
   certifications: Certification[]
+}
+
+export interface CreateProductDto {
+  name: string
+  image: string
+  description: string
+  price: number
+  stock: number
+  sku: string
+  originCountry: string
+  weightKg: number
+  recyclabilityStatus: RecyclabilityStatus
+  imageAltText?: string
+  environmentalImpact: {
+    recycledContent: number
+    materials: MaterialComposition[]
+  }
+  materials: MaterialComposition[]
+  certificationIds: string[]
 }
