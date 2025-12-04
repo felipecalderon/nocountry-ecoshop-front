@@ -23,7 +23,6 @@ export default function DashboardLayout({
   })
 
   useEffect(() => {
-    // Esperar a que se hidrate el estado antes de redirigir
     if (!isHydrated) return
 
     if (!user) {
@@ -31,10 +30,8 @@ export default function DashboardLayout({
       return
     }
 
-    // Obtener configuración del dashboard según el rol
     const dashboardConfig = getDashboardConfig(user.role)
 
-    // Convertir los items del config a NavItems con iconos reales
     const items: NavItem[] = dashboardConfig.items.map((item) => ({
       label: item.label,
       href: item.href,
@@ -48,13 +45,12 @@ export default function DashboardLayout({
     })
   }, [user, isHydrated])
 
-  // Mostrar nada mientras se hidrata el estado
   if (!isHydrated || !user) {
-    return null // o un loading spinner
+    return null
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex">
       <DashboardSidebar
         title={config.title}
         navItems={navItems}

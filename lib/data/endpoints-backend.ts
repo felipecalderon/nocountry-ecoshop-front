@@ -216,12 +216,17 @@ export const ENDPOINTS_BACKEND = {
           },
           "400": {
             description:
-              "Fallo de validación de datos o ID de certificación no válido.",
+              "Fallo de validación de datos o ID de certificación no válido, o la suma de porcentajes de materiales no es 100.",
           },
           "404": {
             description: "No se encontró la Marca o Composición de Material.",
           },
         },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
         summary: "Crea un nuevo producto con su impacto ambiental y materiales",
         tags: ["products"],
       },
@@ -279,16 +284,28 @@ export const ENDPOINTS_BACKEND = {
           content: {
             "application/json": {
               schema: {
-                $ref: "#/components/schemas/CreateProductDto",
+                $ref: "#/components/schemas/UpdateProductDto",
               },
             },
           },
         },
         responses: {
           "200": {
-            description: "Product updated successfully",
+            description: "Producto actualizado exitosamente",
+          },
+          "400": {
+            description: "ID de producto inválido o duplicado de slug/sku",
+          },
+          "403": {
+            description:
+              "No tienes permisos para actualizar este producto (no es de tu marca)",
           },
         },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
         summary: "Actualizar un producto por ID",
         tags: ["products"],
       },
@@ -447,6 +464,127 @@ export const ENDPOINTS_BACKEND = {
         ],
         summary: "Obtener métricas de negocio de la marca",
         tags: ["Marcas (Gestión)"],
+      },
+    },
+    "/material-composition/material-compositions": {
+      post: {
+        operationId: "MaterialCompositionController_createMaterialComposition",
+        parameters: [],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CreateMaterialCompositionDto",
+              },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "",
+          },
+        },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
+        summary: "Crear nuevo material base",
+        tags: ["MaterialComposition"],
+      },
+      get: {
+        operationId: "MaterialCompositionController_findAll",
+        parameters: [],
+        responses: {
+          "200": {
+            description: "",
+          },
+        },
+        summary: "Listar todos los materiales",
+        tags: ["MaterialComposition"],
+      },
+    },
+    "/material-composition/material-compositions/{id}": {
+      get: {
+        operationId: "MaterialCompositionController_findOne",
+        parameters: [
+          {
+            name: "id",
+            required: true,
+            in: "path",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "",
+          },
+        },
+        summary: "Obtener un material por ID",
+        tags: ["MaterialComposition"],
+      },
+      patch: {
+        operationId: "MaterialCompositionController_update",
+        parameters: [
+          {
+            name: "id",
+            required: true,
+            in: "path",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/UpdateMaterialCompositionDto",
+              },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "",
+          },
+        },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
+        summary: "Actualizar material",
+        tags: ["MaterialComposition"],
+      },
+      delete: {
+        operationId: "MaterialCompositionController_remove",
+        parameters: [
+          {
+            name: "id",
+            required: true,
+            in: "path",
+            schema: {
+              type: "string",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "",
+          },
+        },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
+        summary: "Eliminar material",
+        tags: ["MaterialComposition"],
       },
     },
     "/certifications": {
@@ -787,127 +925,6 @@ export const ENDPOINTS_BACKEND = {
         tags: ["Admin Dashboard"],
       },
     },
-    "/material-composition/material-compositions": {
-      post: {
-        operationId: "MaterialCompositionController_createMaterialComposition",
-        parameters: [],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/CreateMaterialCompositionDto",
-              },
-            },
-          },
-        },
-        responses: {
-          "201": {
-            description: "",
-          },
-        },
-        security: [
-          {
-            bearer: [],
-          },
-        ],
-        summary: "Crear nuevo material base",
-        tags: ["MaterialComposition"],
-      },
-      get: {
-        operationId: "MaterialCompositionController_findAll",
-        parameters: [],
-        responses: {
-          "200": {
-            description: "",
-          },
-        },
-        summary: "Listar todos los materiales",
-        tags: ["MaterialComposition"],
-      },
-    },
-    "/material-composition/material-compositions/{id}": {
-      get: {
-        operationId: "MaterialCompositionController_findOne",
-        parameters: [
-          {
-            name: "id",
-            required: true,
-            in: "path",
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          "200": {
-            description: "",
-          },
-        },
-        summary: "Obtener un material por ID",
-        tags: ["MaterialComposition"],
-      },
-      patch: {
-        operationId: "MaterialCompositionController_update",
-        parameters: [
-          {
-            name: "id",
-            required: true,
-            in: "path",
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: {
-                $ref: "#/components/schemas/UpdateMaterialCompositionDto",
-              },
-            },
-          },
-        },
-        responses: {
-          "200": {
-            description: "",
-          },
-        },
-        security: [
-          {
-            bearer: [],
-          },
-        ],
-        summary: "Actualizar material",
-        tags: ["MaterialComposition"],
-      },
-      delete: {
-        operationId: "MaterialCompositionController_remove",
-        parameters: [
-          {
-            name: "id",
-            required: true,
-            in: "path",
-            schema: {
-              type: "string",
-            },
-          },
-        ],
-        responses: {
-          "200": {
-            description: "",
-          },
-        },
-        security: [
-          {
-            bearer: [],
-          },
-        ],
-        summary: "Eliminar material",
-        tags: ["MaterialComposition"],
-      },
-    },
     "/wallet/balance": {
       get: {
         operationId: "WalletController_getBlance",
@@ -1018,6 +1035,35 @@ export const ENDPOINTS_BACKEND = {
           },
         ],
         summary: "Crear nueva recompensa (Solo Admin)",
+        tags: ["Eco-Wallet"],
+      },
+    },
+    "/wallet/coupons": {
+      get: {
+        operationId: "WalletController_getMyCoupons",
+        parameters: [
+          {
+            name: "onlyActive",
+            required: false,
+            in: "query",
+            description:
+              "Filtro de estado. Si es true (por defecto), devuelve SOLO cupones válidos (no usados y no vencidos), ideal para mostrar en el Checkout. Si es false, devuelve todo el historial histórico de cupones (usados y vencidos).",
+            schema: {
+              type: "boolean",
+            },
+          },
+        ],
+        responses: {
+          "200": {
+            description: "Lista de cupones pertenecientes al usuario.",
+          },
+        },
+        security: [
+          {
+            bearer: [],
+          },
+        ],
+        summary: "Obtener mis cupones generados",
         tags: ["Eco-Wallet"],
       },
     },
@@ -1139,6 +1185,11 @@ export const ENDPOINTS_BACKEND = {
               $ref: "#/components/schemas/OrderItemDto",
             },
           },
+          couponCode: {
+            type: "string",
+            description: "Código de cupón",
+            example: "ECO-A1B2C3",
+          },
         },
         required: ["addressId", "items"],
       },
@@ -1156,12 +1207,6 @@ export const ENDPOINTS_BACKEND = {
             minimum: 0,
             maximum: 100,
           },
-          ecoBadgeLevel: {
-            type: "string",
-            description: "Nivel de la insignia ecologica",
-            enum: ["LOW", "MEDIUM", "HIGH", "NEUTRAL"],
-            example: "HIGH",
-          },
           materials: {
             description:
               "Composicion de materiales del producto (IDs existentes)",
@@ -1171,7 +1216,7 @@ export const ENDPOINTS_BACKEND = {
             type: "array",
           },
         },
-        required: ["recycledContent", "ecoBadgeLevel", "materials"],
+        required: ["recycledContent", "materials"],
       },
       CreateProductDto: {
         type: "object",
@@ -1250,11 +1295,6 @@ export const ENDPOINTS_BACKEND = {
             },
             type: "array",
           },
-          brandId: {
-            type: "string",
-            description: "ID de la marca a la que pertenece el producto",
-            example: "123e4567-e89b-12d3-a456-426614174000",
-          },
           certificationIds: {
             description: "IDs de las certificados del producto",
             example: [
@@ -1276,8 +1316,11 @@ export const ENDPOINTS_BACKEND = {
           "recyclabilityStatus",
           "environmentalImpact",
           "materials",
-          "brandId",
         ],
+      },
+      UpdateProductDto: {
+        type: "object",
+        properties: {},
       },
       CreateBrandDto: {
         type: "object",
@@ -1336,6 +1379,72 @@ export const ENDPOINTS_BACKEND = {
           },
         },
         required: ["totalRevenue", "totalUnitsSold", "totalOrders"],
+      },
+      CreateMaterialCompositionDto: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "Nombre del material (Debe ser único)",
+            example: "Algodón Orgánico",
+            minLength: 2,
+            maxLength: 100,
+          },
+          isEcoFriendly: {
+            type: "boolean",
+            description: "Indica si el material es considerado ecológico",
+            example: true,
+            default: false,
+          },
+          carbonFootprintPerKg: {
+            type: "number",
+            description: "Huella de carbono por Kg de material (kg CO2e)",
+            example: 3.5,
+            minimum: 0,
+          },
+          waterUsagePerKg: {
+            type: "number",
+            description: "Uso de agua por Kg de material (litros)",
+            example: 2500.5,
+            minimum: 0,
+          },
+        },
+        required: [
+          "name",
+          "isEcoFriendly",
+          "carbonFootprintPerKg",
+          "waterUsagePerKg",
+        ],
+      },
+      UpdateMaterialCompositionDto: {
+        type: "object",
+        properties: {
+          name: {
+            type: "string",
+            description: "Nombre del material (Debe ser único)",
+            example: "Algodón Orgánico",
+            minLength: 2,
+            maxLength: 100,
+          },
+          isEcoFriendly: {
+            type: "boolean",
+            description: "Indica si el material es considerado ecológico",
+            example: true,
+            default: false,
+          },
+          carbonFootprintPerKg: {
+            type: "number",
+            description: "Huella de carbono por Kg de material (kg CO2e)",
+            example: 3.5,
+            minimum: 0,
+          },
+          waterUsagePerKg: {
+            type: "number",
+            description: "Uso de agua por Kg de material (litros)",
+            example: 2500.5,
+            minimum: 0,
+          },
+        },
       },
       CreateAddressDto: {
         type: "object",
@@ -1411,72 +1520,6 @@ export const ENDPOINTS_BACKEND = {
         },
         required: ["isBanned"],
       },
-      CreateMaterialCompositionDto: {
-        type: "object",
-        properties: {
-          name: {
-            type: "string",
-            description: "Nombre del material (Debe ser único)",
-            example: "Algodón Orgánico",
-            minLength: 2,
-            maxLength: 100,
-          },
-          isEcoFriendly: {
-            type: "boolean",
-            description: "Indica si el material es considerado ecológico",
-            example: true,
-            default: false,
-          },
-          carbonFootprintPerKg: {
-            type: "number",
-            description: "Huella de carbono por Kg de material (kg CO2e)",
-            example: 3.5,
-            minimum: 0,
-          },
-          waterUsagePerKg: {
-            type: "number",
-            description: "Uso de agua por Kg de material (litros)",
-            example: 2500.5,
-            minimum: 0,
-          },
-        },
-        required: [
-          "name",
-          "isEcoFriendly",
-          "carbonFootprintPerKg",
-          "waterUsagePerKg",
-        ],
-      },
-      UpdateMaterialCompositionDto: {
-        type: "object",
-        properties: {
-          name: {
-            type: "string",
-            description: "Nombre del material (Debe ser único)",
-            example: "Algodón Orgánico",
-            minLength: 2,
-            maxLength: 100,
-          },
-          isEcoFriendly: {
-            type: "boolean",
-            description: "Indica si el material es considerado ecológico",
-            example: true,
-            default: false,
-          },
-          carbonFootprintPerKg: {
-            type: "number",
-            description: "Huella de carbono por Kg de material (kg CO2e)",
-            example: 3.5,
-            minimum: 0,
-          },
-          waterUsagePerKg: {
-            type: "number",
-            description: "Uso de agua por Kg de material (litros)",
-            example: 2500.5,
-            minimum: 0,
-          },
-        },
-      },
       RedeemPointsDto: {
         type: "object",
         properties: {
@@ -1500,12 +1543,13 @@ export const ENDPOINTS_BACKEND = {
           name: {
             type: "string",
             description: "Nombre de la recompensa",
-            example: "Plantar un Árbol Nativo",
+            example: "PlantaEco-Descuento 10%",
           },
           description: {
             type: "string",
             description: "Descripción detallada",
-            example: "Ayuda a reforestar la selva misionera con esta donación.",
+            example:
+              "Obtén un 10% de descuento en tu próxima compra sostenible.",
           },
           costInPoints: {
             type: "number",
@@ -1532,6 +1576,15 @@ export const ENDPOINTS_BACKEND = {
             type: "boolean",
             description: "Si la recompensa está activa inmediatamente",
             default: true,
+          },
+          metadata: {
+            type: "object",
+            description:
+              "Configuración extra (ej: porcentaje de descuento, días validez)",
+            example: {
+              discountPercentage: 10,
+              validDays: 30,
+            },
           },
         },
         required: ["name", "costInPoints", "type"],

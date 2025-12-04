@@ -1,5 +1,5 @@
 import { fetcher } from "@/lib/fetcher"
-import { CreateCertificationDto } from "@/types"
+import { Certification, CreateCertificationDto } from "@/types"
 import { auth0 } from "@/lib/auth0"
 
 export const createCertification = async (data: CreateCertificationDto) => {
@@ -25,9 +25,9 @@ export const createCertification = async (data: CreateCertificationDto) => {
 
 export const getCertifications = async () => {
   try {
-    return await fetcher("GET", "/certifications")
+    return await fetcher<{ data: Certification[] }>("GET", "/certifications")
   } catch (error) {
     console.error("Error fetching certifications:", error)
-    return []
+    throw error
   }
 }
