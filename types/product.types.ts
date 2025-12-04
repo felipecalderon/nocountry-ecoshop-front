@@ -54,7 +54,7 @@ export interface Product {
   name: string
   image: string
   description: string
-  price: number
+  price: string
   stock: number
   sku: string
   originCountry: string
