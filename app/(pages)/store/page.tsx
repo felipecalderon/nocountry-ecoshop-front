@@ -13,7 +13,6 @@ interface StorePageProps {
 
 export default async function StorePage({ searchParams }: StorePageProps) {
   const { data: products } = await getProducts()
-  console.log(products)
   const params = await searchParams
   const name = (params.name as string) || ""
   const sku = (params.sku as string) || ""

@@ -25,12 +25,13 @@ export default function ProductSingleClient({ product }: { product: Product }) {
             <div className="w-full">
               <div className="relative aspect-square overflow-hidden rounded-lg shadow-xl">
                 <Image
-                  src="/product-noimg.jpg"
+                  src={product.image}
                   alt={product.imageAltText || product.name}
                   width={600}
                   height={600}
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   style={{ viewTransitionName: `product-image-${product.id}` }}
+                  unoptimized
                 />
               </div>
             </div>

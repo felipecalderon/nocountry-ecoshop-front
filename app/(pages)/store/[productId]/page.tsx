@@ -10,7 +10,6 @@ interface PageProps {
 export default async function SingleProductPage({ params }: PageProps) {
   const { productId } = await params
   const { data: product } = await getProduct(productId)
-  console.log(product)
   if (!product) return <p>Producto no encontrado</p>
   return <ProductSingleClient product={product} />
 }

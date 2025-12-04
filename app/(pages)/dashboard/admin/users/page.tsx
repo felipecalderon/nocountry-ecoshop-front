@@ -8,7 +8,6 @@ interface Props {
 }
 export default async function AdminUsersPage({ searchParams }: Props) {
   const data = await getUsers(Number((await searchParams).currentPage || 1), 10)
-  console.log(data)
   return (
     <div className="space-y-6">
       <div>

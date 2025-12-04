@@ -4,7 +4,6 @@ import CartClient from "@/app/components/cart/CartClient"
 
 export default async function CartPage() {
   const { data: products } = await getProducts()
-  console.log(products)
   if (products.length === 0) {
     return <EmptyCartItem />
   }
