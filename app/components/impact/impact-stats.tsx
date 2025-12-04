@@ -1,8 +1,8 @@
 "use client"
 
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { Leaf, Award, TreeDeciduous, TrendingUp } from "lucide-react"
 import { ImpactStatsDto } from "@/types"
+import DashboardCard from "../dashboard/DashboardCard"
 
 interface ImpactStatsProps {
   stats: ImpactStatsDto | null

@@ -56,7 +56,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
               </div>
               <div className="flex items-baseline space-x-4">
                 <p className="text-3xl font-bold text-primary dark:text-secondary">
-                  ${product.price.toFixed(2)}
+                  ${product.price} USD
                 </p>
                 <Badge
                   variant="outline"
@@ -67,7 +67,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
               </div>
 
               <div className="flex flex-wrap gap-4">
-                <BadgeLevel level={product.enviromentalImpact.ecoBadgeLevel} />
+                <BadgeLevel level={product.environmentalImpact.ecoBadgeLevel} />
                 <BadgeRecyclability status={product.recyclabilityStatus} />
                 <div className="flex items-center space-x-2 text-sm text-muted-foreground">
                   <Truck className="h-4 w-4" />
@@ -121,7 +121,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                 Composición Material
               </h3>
               <ul className="space-y-3">
-                {product.materialComposition.map((material) => (
+                {product.materials.map((material) => (
                   <li
                     key={material.id}
                     className="flex max-w-xl justify-between items-center border-b pb-2 last:border-b-0 mx-auto"
@@ -164,7 +164,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                   <div>
                     <span className="font-medium">Nivel de Eco-Insignia:</span>
                     <BadgeLevel
-                      level={product.enviromentalImpact.ecoBadgeLevel}
+                      level={product.environmentalImpact.ecoBadgeLevel}
                     />
                   </div>
                   <div>
@@ -176,7 +176,7 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                   <div>
                     <span className="font-medium">Contenido Reciclado:</span>
                     <Badge variant="outline" className="ml-2">
-                      {product.enviromentalImpact.recycledContent}%
+                      {product.environmentalImpact.recycledContent}%
                     </Badge>
                   </div>
                 </div>

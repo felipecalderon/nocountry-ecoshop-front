@@ -15,26 +15,14 @@ import {
 import { Button } from "@/app/components/ui/button"
 import AddressCardDetails from "./AddressCardDetails"
 import { DeleteConfirmationModalProps } from "@/types"
+import { useDeleteAddressConfirmation } from "@/hooks/useDeleteAddressConfirmation"
 
 function DeleteConfirmationModal({
   isOpen,
   onClose,
-  onConfirm,
   address,
 }: DeleteConfirmationModalProps) {
-  const [isDeleting, setIsDeleting] = useState(false)
-
-  const handleConfirm = async () => {
-    try {
-      setIsDeleting(true)
-      await onConfirm()
-      onClose()
-    } catch (error) {
-      console.error("Error deleting address:", error)
-    } finally {
-      setIsDeleting(false)
-    }
-  }
+  const { handleConfirm } = useDeleteAddressConfirmation({ address })
 
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
@@ -63,7 +51,6 @@ function DeleteConfirmationModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              disabled={isDeleting}
               className="w-full sm:w-auto dark:hover:text-white"
             >
               Cancelar
@@ -75,17 +62,9 @@ function DeleteConfirmationModal({
               type="button"
               variant="destructive"
               onClick={handleConfirm}
-              disabled={isDeleting}
               className="w-full sm:w-auto"
             >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Eliminando...
-                </>
-              ) : (
-                "Sí, eliminar dirección"
-              )}
+              Sí, eliminar dirección
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>

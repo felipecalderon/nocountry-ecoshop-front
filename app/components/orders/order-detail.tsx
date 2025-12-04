@@ -2,8 +2,8 @@
 
 import { Badge } from "@/app/components/ui/badge"
 import { Button } from "@/app/components/ui/button"
-import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { Package, Calendar, DollarSign, MapPin, ArrowLeft } from "lucide-react"
+import DashboardCard from "../dashboard/DashboardCard"
 
 interface OrderItem {
   id: string

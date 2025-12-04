@@ -29,6 +29,8 @@ export interface EnviromentalImpact {
   id: string
   recycledContent: number
   ecoBadgeLevel: EcoBadgeLevel
+  carbonFootprint: string
+  waterUsage: string
 }
 
 /**
@@ -59,8 +61,8 @@ export interface Product {
   recyclabilityStatus: RecyclabilityStatus
   imageAltText: string
   deletedAt: Date | null
-  enviromentalImpact: EnviromentalImpact
-  materialComposition: MaterialComposition[]
+  environmentalImpact: EnviromentalImpact
+  materials: MaterialComposition[]
   certifications: Certification[]
 }
 
