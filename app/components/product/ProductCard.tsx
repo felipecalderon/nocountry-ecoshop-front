@@ -15,6 +15,7 @@ import { Product } from "@/types/product.types"
 import { ShoppingCart } from "lucide-react"
 import { useTransitionRouter } from "next-view-transitions"
 import { useCartStore } from "@/stores/cartStore"
+import { useState } from "react"
 
 export default function ProductCard({ product }: { product: Product }) {
   const router = useTransitionRouter()
@@ -46,14 +47,23 @@ export default function ProductCard({ product }: { product: Product }) {
             onClick={goToProduct}
             title="Ver detalles del producto"
           >
-            <Image
-              src={"/product-noimg.jpg"}
-              alt={product.imageAltText || product.name}
-              width={200}
-              height={200}
-              className="mx-auto rounded-md"
-              style={{ viewTransitionName: `product-image-${product.id}` }}
-            />
+            <div className="relative">
+              <Image
+                src={product.image}
+                alt={product.imageAltText || product.name}
+                width={200}
+                height={200}
+                className="mx-auto rounded-md"
+                style={{ viewTransitionName: `product-image-${product.id}` }}
+                unoptimized
+              />
+              <Button
+                className="absolute bottom-4 right-4 w-full dark:bg-white dark:hover:bg-white/80 dark:text-gray-800 text-white font-black cursor-pointer"
+                onClick={handleAddToCart}
+              >
+                Agregar al carrito <ShoppingCart />
+              </Button>
+            </div>
             <CardTitle>{product.name}</CardTitle>
             <CardDescription>{product.description}</CardDescription>
           </CardHeader>
@@ -63,7 +73,7 @@ export default function ProductCard({ product }: { product: Product }) {
               ${product.price} USD
             </div>
           </CardContent>
-
+          {/* 
           <CardFooter className="border-border border-t p-4 [.border-t]:pt-4 dark:bg-secondary/20 ">
             <Button
               className="w-full dark:bg-white dark:hover:bg-white/80 dark:text-gray-800 text-white font-black cursor-pointer"
@@ -71,7 +81,7 @@ export default function ProductCard({ product }: { product: Product }) {
             >
               Agregar al carrito <ShoppingCart />
             </Button>
-          </CardFooter>
+          </CardFooter> */}
         </div>
       </MagicCard>
     </Card>

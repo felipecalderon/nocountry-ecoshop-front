@@ -34,7 +34,6 @@ export function ProfileForm() {
         startTransition(async () => {
           if (sessionUser) {
             const data = await getProfile()
-            console.log(data)
             if (data) {
               setFormData({
                 firstName: data.firstName || "",
