@@ -68,14 +68,14 @@ export function getCarbonImpactLevel(co2: number): {
   color: string
   description: string
 } {
-  if (co2 < 1) {
+  if (co2 < 10) {
     return {
       level: "low",
       label: "Impacto Bajo",
       color: "text-green-800 dark:text-green-200",
       description: "¡Excelente elección! Tu compra tiene un impacto mínimo.",
     }
-  } else if (co2 < 5) {
+  } else if (co2 < 30) {
     return {
       level: "medium",
       label: "Impacto Moderado",
