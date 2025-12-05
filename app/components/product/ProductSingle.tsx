@@ -130,10 +130,12 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                     <span className="font-medium flex items-center space-x-2">
                       <span
                         className={`h-2 w-2 rounded-full ${
-                          material.isEcoFriendly ? "bg-green-500" : "bg-red-500"
+                          material.materialComposition.isEcoFriendly
+                            ? "bg-green-500"
+                            : "bg-red-500"
                         }`}
                       ></span>
-                      {material.name}
+                      {material.materialComposition.name}
                     </span>
                     <div className="text-right">
                       <span className="font-bold text-lg">
@@ -142,11 +144,12 @@ export default function ProductSingleClient({ product }: { product: Product }) {
                       <div className="flex space-x-4 text-sm text-muted-foreground mt-1">
                         <span title="Huella de Carbono">
                           <Info className="inline h-3 w-3 mr-1" />
-                          {material.carbonFootprint} kg CO2e
+                          {material.materialComposition.carbonFootprintPerKg} kg
+                          CO2e
                         </span>
                         <span title="Uso de Agua">
                           <Info className="inline h-3 w-3 mr-1" />
-                          {material.waterUsage} L
+                          {material.materialComposition.waterUsagePerKg} L
                         </span>
                       </div>
                     </div>

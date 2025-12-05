@@ -6,12 +6,14 @@ export function calculateProductCarbonFootprint(product: Product): {
   water: number
 } {
   const totalCO2 = product.materials.reduce(
-    (sum, material) => sum + material.carbonFootprint,
+    (sum, material) =>
+      sum + Number(material.materialComposition.carbonFootprintPerKg),
     0
   )
 
   const totalWater = product.materials.reduce(
-    (sum, material) => sum + material.waterUsage,
+    (sum, material) =>
+      sum + Number(material.materialComposition.waterUsagePerKg),
     0
   )
 
