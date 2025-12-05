@@ -193,7 +193,7 @@ export default function ProductForm({
             <SelectContent>
               {materials.map((m) => (
                 <SelectItem key={m.id} value={m.id}>
-                  {m.name}
+                  {m.materialComposition.name}
                 </SelectItem>
               ))}
             </SelectContent>

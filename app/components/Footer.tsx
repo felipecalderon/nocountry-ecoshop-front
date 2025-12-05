@@ -8,10 +8,10 @@ import { socialIconLinks } from "@/lib/data/socials"
 function Footer() {
   return (
     <footer
-      className="bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-black/40 shadow-2xl border-t border-stone-200 dark:border-neutral-800/80"
+      className="pt-10 bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-primary shadow-2xl"
       id="footer"
     >
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <section className="mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <figure className="w-28 h-28 mb-8 rounded-full shadow-lg overflow-hidden mx-auto">
           <Image
             src="/images/ecoshop-logo.avif"
