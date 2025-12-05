@@ -38,7 +38,9 @@ export default async function StorePage({ searchParams }: StorePageProps) {
     const matchesMaterial =
       !material ||
       product.materials.some((m: MaterialComposition) =>
-        m.name.toLowerCase().includes(material.toLowerCase())
+        m.materialComposition.name
+          .toLowerCase()
+          .includes(material.toLowerCase())
       )
 
     return (

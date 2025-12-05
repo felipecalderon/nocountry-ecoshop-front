@@ -11,28 +11,80 @@ import {
 } from "@/app/components/ui/select"
 import { useTransitionRouter } from "next-view-transitions"
 import { useSearchParams } from "next/navigation"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 import { RecyclabilityStatus } from "@/types/product.types"
 import { Button } from "../ui/button"
+import {
+  Search,
+  Tag,
+  Globe,
+  Recycle,
+  Leaf,
+  Layers,
+  X,
+  ChevronDown,
+  ChevronUp,
+  Filter,
+} from "lucide-react"
+import { Badge } from "../ui/badge"
+
+// Mapeo de etiquetas amigables para RecyclabilityStatus
+const RECYCLABILITY_LABELS: Record<RecyclabilityStatus, string> = {
+  [RecyclabilityStatus.NOT_APPLICABLE]: "No Aplica",
+  [RecyclabilityStatus.NOT_RECYCLABLE]: "No Reciclable",
+  [RecyclabilityStatus.PARTIALLY_RECYCLABLE]: "Parcialmente Reciclable",
+  [RecyclabilityStatus.FULLY_RECYCLABLE]: "Totalmente Reciclable",
+}
+
+// Mapeo de etiquetas amigables para EcoBadgeLevel
+const ECO_BADGE_LABELS: Record<string, string> = {
+  LOW: "Bajo Impacto",
+  MEDIUM: "Impacto Medio",
+  HIGH: "Alto Impacto",
+}
+
+interface FilterState {
+  name: string
+  sku: string
+  originCountry: string
+  material: string
+}
 
 export default function ProductFilters() {
   const router = useTransitionRouter()
   const searchParams = useSearchParams()
+  const [isCollapsed, setIsCollapsed] = useState(false)
 
-  const [name, setName] = useState(searchParams.get("name") || "")
-  const [sku, setSku] = useState(searchParams.get("sku") || "")
-  const [originCountry, setOriginCountry] = useState(
-    searchParams.get("originCountry") || ""
-  )
-  const [material, setMaterial] = useState(searchParams.get("material") || "")
+  // Estado consolidado para filtros de texto
+  const [filters, setFilters] = useState<FilterState>({
+    name: searchParams.get("name") || "",
+    sku: searchParams.get("sku") || "",
+    originCountry: searchParams.get("originCountry") || "",
+    material: searchParams.get("material") || "",
+  })
 
+  // Sincronizar estado con URL params
   useEffect(() => {
-    setName(searchParams.get("name") || "")
-    setSku(searchParams.get("sku") || "")
-    setOriginCountry(searchParams.get("originCountry") || "")
-    setMaterial(searchParams.get("material") || "")
+    setFilters({
+      name: searchParams.get("name") || "",
+      sku: searchParams.get("sku") || "",
+      originCountry: searchParams.get("originCountry") || "",
+      material: searchParams.get("material") || "",
+    })
   }, [searchParams])
+
+  // Contar filtros activos
+  const activeFiltersCount = useMemo(() => {
+    let count = 0
+    if (filters.name) count++
+    if (filters.sku) count++
+    if (filters.originCountry) count++
+    if (filters.material) count++
+    if (searchParams.get("recyclabilityStatus")) count++
+    if (searchParams.get("ecoBadgeLevel")) count++
+    return count
+  }, [filters, searchParams])
 
   const createQueryString = useCallback(
     (name: string, value: string) => {
@@ -54,125 +106,206 @@ export default function ProductFilters() {
     500
   )
 
-  const handleTextChange = (
-    key: "name" | "sku" | "originCountry" | "material",
-    value: string
-  ) => {
-    if (key === "name") setName(value)
-    if (key === "sku") setSku(value)
-    if (key === "originCountry") setOriginCountry(value)
-    if (key === "material") setMaterial(value)
-
+  // Handler genérico para cambios de texto
+  const handleTextChange = (key: keyof FilterState, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }))
     debouncedUpdate(key, value)
   }
 
+  // Handler para selects
   const handleSelectChange = (name: string, value: string) => {
     router.push(`?${createQueryString(name, value)}`)
   }
 
+  // Limpiar todos los filtros
   const clearFilters = () => {
     router.push("/store")
   }
 
   return (
-    <div className="w-full md:w-64 space-y-6 p-4 border rounded-lg h-fit">
-      <div className="flex justify-between items-center">
-        <h3 className="font-semibold text-lg">Filtros</h3>
-        {searchParams.toString().length > 0 && (
+    <div className="w-full sticky top-20 md:w-64 space-y-4 p-5 border rounded-xl h-fit bg-gradient-to-br from-background from-10% to-muted/20 shadow-sm transition-all duration-300 hover:shadow-md">
+      {/* Header con contador de filtros */}
+      <div className="flex justify-between items-center pb-3 border-b">
+        <div className="flex items-center gap-2">
+          <Filter className="size-5 text-primary" />
+          <h3 className="font-semibold text-lg">Filtros</h3>
+          {activeFiltersCount > 0 && (
+            <Badge variant="secondary" className="h-5 px-1.5 text-xs">
+              {activeFiltersCount}
+            </Badge>
+          )}
+        </div>
+        <div className="flex items-center gap-1">
+          {activeFiltersCount > 0 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearFilters}
+              className="text-xs h-7 px-2 hover:bg-destructive/10 hover:text-destructive transition-colors"
+            >
+              <X className="size-3 mr-1" />
+              Limpiar
+            </Button>
+          )}
           <Button
             variant="ghost"
             size="sm"
-            onClick={clearFilters}
-            className="text-xs h-8"
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="md:hidden h-7 w-7 p-0"
           >
-            Limpiar
+            {isCollapsed ? (
+              <ChevronDown className="size-4" />
+            ) : (
+              <ChevronUp className="size-4" />
+            )}
           </Button>
-        )}
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="name">Nombre</Label>
-        <Input
-          id="name"
-          placeholder="Buscar por nombre..."
-          value={name}
-          onChange={(e) => handleTextChange("name", e.target.value)}
-        />
-      </div>
+      {/* Contenido de filtros */}
+      <div
+        className={`space-y-4 transition-all duration-300 ${
+          isCollapsed ? "hidden md:block" : "block"
+        }`}
+      >
+        {/* Filtro por Nombre */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="name"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Search className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            Nombre del Producto
+          </Label>
+          <Input
+            id="name"
+            placeholder="Buscar por nombre..."
+            value={filters.name}
+            onChange={(e) => handleTextChange("name", e.target.value)}
+            className="transition-all duration-200 focus:scale-[1.02]"
+          />
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="sku">SKU</Label>
-        <Input
-          id="sku"
-          placeholder="Buscar por SKU..."
-          value={sku}
-          onChange={(e) => handleTextChange("sku", e.target.value)}
-        />
-      </div>
+        {/* Filtro por SKU */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="sku"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Tag className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            Código SKU
+          </Label>
+          <Input
+            id="sku"
+            placeholder="Buscar por SKU..."
+            value={filters.sku}
+            onChange={(e) => handleTextChange("sku", e.target.value)}
+            className="transition-all duration-200 focus:scale-[1.02]"
+          />
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="originCountry">País de Origen</Label>
-        <Input
-          id="originCountry"
-          placeholder="Ej: Argentina"
-          value={originCountry}
-          onChange={(e) => handleTextChange("originCountry", e.target.value)}
-        />
-      </div>
+        {/* Filtro por País de Origen */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="originCountry"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Globe className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            País de Origen
+          </Label>
+          <Input
+            id="originCountry"
+            placeholder="Ej: Argentina"
+            value={filters.originCountry}
+            onChange={(e) => handleTextChange("originCountry", e.target.value)}
+            className="transition-all duration-200 focus:scale-[1.02]"
+          />
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="recyclabilityStatus">Reciclabilidad</Label>
-        <Select
-          value={searchParams.get("recyclabilityStatus") || "ALL"}
-          onValueChange={(value) =>
-            handleSelectChange(
-              "recyclabilityStatus",
-              value === "ALL" ? "" : value
-            )
-          }
-        >
-          <SelectTrigger id="recyclabilityStatus">
-            <SelectValue placeholder="Seleccionar..." />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">Todos</SelectItem>
-            {Object.values(RecyclabilityStatus).map((status) => (
-              <SelectItem key={status} value={status}>
-                {status}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Filtro por Reciclabilidad */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="recyclabilityStatus"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Recycle className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            Reciclabilidad
+          </Label>
+          <Select
+            value={searchParams.get("recyclabilityStatus") || "ALL"}
+            onValueChange={(value) =>
+              handleSelectChange(
+                "recyclabilityStatus",
+                value === "ALL" ? "" : value
+              )
+            }
+          >
+            <SelectTrigger
+              id="recyclabilityStatus"
+              className="transition-all duration-200 hover:border-primary/50"
+            >
+              <SelectValue placeholder="Seleccionar..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos</SelectItem>
+              {Object.entries(RECYCLABILITY_LABELS).map(([status, label]) => (
+                <SelectItem key={status} value={status}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="ecoBadgeLevel">Impacto Ambiental</Label>
-        <Select
-          value={searchParams.get("ecoBadgeLevel") || "ALL"}
-          onValueChange={(value) =>
-            handleSelectChange("ecoBadgeLevel", value === "ALL" ? "" : value)
-          }
-        >
-          <SelectTrigger id="ecoBadgeLevel">
-            <SelectValue placeholder="Seleccionar..." />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">Todos</SelectItem>
-            <SelectItem value="LOW">Bajo</SelectItem>
-            <SelectItem value="MEDIUM">Medio</SelectItem>
-            <SelectItem value="HIGH">Alto</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
+        {/* Filtro por Impacto Ambiental */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="ecoBadgeLevel"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Leaf className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            Impacto Ambiental
+          </Label>
+          <Select
+            value={searchParams.get("ecoBadgeLevel") || "ALL"}
+            onValueChange={(value) =>
+              handleSelectChange("ecoBadgeLevel", value === "ALL" ? "" : value)
+            }
+          >
+            <SelectTrigger
+              id="ecoBadgeLevel"
+              className="transition-all duration-200 hover:border-primary/50"
+            >
+              <SelectValue placeholder="Seleccionar..." />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="ALL">Todos</SelectItem>
+              {Object.entries(ECO_BADGE_LABELS).map(([level, label]) => (
+                <SelectItem key={level} value={level}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="material">Composición Material</Label>
-        <Input
-          id="material"
-          placeholder="Ej: Algodón"
-          value={material}
-          onChange={(e) => handleTextChange("material", e.target.value)}
-        />
+        {/* Filtro por Material */}
+        <div className="space-y-2 group">
+          <Label
+            htmlFor="material"
+            className="flex items-center gap-2 text-sm font-medium"
+          >
+            <Layers className="size-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            Composición Material
+          </Label>
+          <Input
+            id="material"
+            placeholder="Ej: Algodón, Poliéster..."
+            value={filters.material}
+            onChange={(e) => handleTextChange("material", e.target.value)}
+            className="transition-all duration-200 focus:scale-[1.02]"
+          />
+        </div>
       </div>
     </div>
   )

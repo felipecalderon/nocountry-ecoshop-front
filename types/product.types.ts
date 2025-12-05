@@ -38,11 +38,14 @@ export interface EnviromentalImpact {
  */
 export interface MaterialComposition {
   id: string
-  name: string
   percentage: number
-  isEcoFriendly: boolean
-  carbonFootprint: number
-  waterUsage: number
+  materialComposition: {
+    name: string
+    isEcoFriendly: boolean
+    carbonFootprintPerKg: string
+    waterUsagePerKg: string
+    id: string
+  }
 }
 
 /**

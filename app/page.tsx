@@ -12,7 +12,7 @@ export default async function Home() {
     <div>
       <HeroBannerSlider />
       <div className="flex flex-wrap gap-6 justify-center py-12">
-        {data.map((p) => <ProductCard key={p.id} product={p} />).slice(0, 5)}
+        {data.map((p) => <ProductCard key={p.id} product={p} />).slice(0, 4)}
       </div>
       <div className="flex justify-center mb-10">
         <Link href="/store">
