@@ -4,7 +4,10 @@ import { addressTypeLabels } from "@/lib/data/addressItems"
 
 function AddressCardDetails({ address }: AddressCardDetailsProps) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 bg-muted-foreground/10 rounded-lg">
+    <div
+      className="grid gap-4 mb-2 p-4 bg-muted-foreground/10 rounded-lg
+  grid-cols-[repeat(auto-fit,minmax(120px,1fr))]"
+    >
       <DetailItem label="Calle" value={address.street} />
       <DetailItem label="Ciudad" value={address.city} />
       <DetailItem label="Código Postal" value={address.postalCode} />
