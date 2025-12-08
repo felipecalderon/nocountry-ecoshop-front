@@ -7,7 +7,7 @@ import { useCartStore } from "@/stores/cartStore"
 import { Button } from "../ui/button"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
-import { Product } from "@/types/product.types"
+import { Product } from "@/types"
 
 function AddToCartButton({ product }: { product: Product }) {
   const { addItem, isInCart, getItemQuantity, updateQuantity } = useCartStore()

@@ -3,7 +3,7 @@ import { ArrowRight, Lightbulb, Sprout } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { Separator } from "@/app/components/ui/separator"
 import SummaryInfo from "./SummaryInfo"
-import { CartSummaryProps } from "@/types/cart.types"
+import { CartSummaryProps } from "@/types"
 
 export default function CartSummary({
   totalItems,

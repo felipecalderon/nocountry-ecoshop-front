@@ -3,6 +3,7 @@ import { auth0 } from "@/lib/auth0"
 import { fetcher } from "@/lib/fetcher"
 import {
   CreateMaterialCompositionDto,
+  Material,
   MaterialComposition,
   UpdateMaterialCompositionDto,
 } from "@/types"
@@ -24,7 +25,7 @@ export const createMaterial = async (data: CreateMaterialCompositionDto) => {
 export const getMaterials = async () => {
   try {
     return await fetcher<{
-      data: MaterialComposition["materialComposition"][]
+      data: Material[]
     }>("GET", "/material-composition")
   } catch (error) {
     console.error("Error fetching materials:", error)

@@ -1,3 +1,9 @@
+export interface MaterialComposition {
+  id: string
+  percentage: number
+  materialComposition: Material
+}
+
 export interface CreateMaterialCompositionDto {
   name: string
   isEcoFriendly: boolean

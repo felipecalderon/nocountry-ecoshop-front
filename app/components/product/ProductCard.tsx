@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "../ui/card"
 import { Badge } from "../ui/badge"
-import { Product, RecyclabilityStatus } from "@/types/product.types"
+import { Product, RecyclabilityStatus } from "@/types"
 import { useTransitionRouter } from "next-view-transitions"
 import { useCartStore } from "@/stores/cartStore"
 import { toast } from "sonner"

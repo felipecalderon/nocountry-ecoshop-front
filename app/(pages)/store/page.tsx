@@ -5,7 +5,7 @@ import {
   EcoBadgeLevel,
   RecyclabilityStatus,
   MaterialComposition,
-} from "@/types/product.types"
+} from "@/types"
 
 interface StorePageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>

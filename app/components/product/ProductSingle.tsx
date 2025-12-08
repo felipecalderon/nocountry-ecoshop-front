@@ -5,7 +5,7 @@ import { Separator } from "@/app/components/ui/separator"
 import { Card, CardContent } from "@/app/components/ui/card"
 import AddToCartButton from "./AddToCartButton"
 import { Truck, Leaf, Info, Sprout } from "lucide-react"
-import { Product } from "@/types/product.types"
+import { Product } from "@/types"
 import BadgeLevel from "../BadgeLevel"
 import BadgeRecyclability from "../BadgeRecyclability"
 import {

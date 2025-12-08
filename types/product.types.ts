@@ -1,3 +1,5 @@
+import { MaterialComposition } from "./material.types"
+
 /**
  * Nivel de amigabilidad ecológica (EcoBadgeLevel)
  */
@@ -31,21 +33,6 @@ export interface EnviromentalImpact {
   ecoBadgeLevel: EcoBadgeLevel
   carbonFootprint: string
   waterUsage: string
-}
-
-/**
- * Interfaz para cada elemento de la lista 'materialComposition'.
- */
-export interface MaterialComposition {
-  id: string
-  percentage: number
-  materialComposition: {
-    name: string
-    isEcoFriendly: boolean
-    carbonFootprintPerKg: string
-    waterUsagePerKg: string
-    id: string
-  }
 }
 
 /**

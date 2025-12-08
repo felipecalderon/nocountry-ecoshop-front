@@ -5,7 +5,7 @@ import Image from "next/image"
 import { Trash2, Plus, Minus } from "lucide-react"
 import { useCartStore } from "@/stores/cartStore"
 import { Button } from "../ui/button"
-import { CartItemCardProps } from "@/types/cart.types"
+import { CartItemCardProps } from "@/types"
 
 function CartItemCard({ item }: CartItemCardProps) {
   const { updateQuantity, removeItem } = useCartStore()

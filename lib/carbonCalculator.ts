@@ -1,4 +1,4 @@
-import { Product } from "@/types/product.types"
+import { Product } from "@/types"
 import { CarbonFootprintResult, CartItem } from "@/types"
 
 export function calculateProductCarbonFootprint(product: Product): {
