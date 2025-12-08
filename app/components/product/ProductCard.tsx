@@ -193,13 +193,13 @@ export default function ProductCard({ product }: { product: Product }) {
             <div className="space-y-2 text-xs">
               {/* País de origen */}
               <div className="flex items-center gap-2 ">
-                <MapPin className="w-3 h-3 flex-shrink-0" />
+                <MapPin className="w-3 h-3 shrink-0" />
                 <span className="truncate">{product.originCountry}</span>
               </div>
 
               {/* Reciclabilidad */}
               <div className="flex items-center gap-2">
-                <Recycle className="w-3 h-3 flex-shrink-0 " />
+                <Recycle className="w-3 h-3 shrink-0 " />
                 <Badge
                   className={`${recyclability.className} text-[10px] px-2 py-0`}
                 >
@@ -210,7 +210,7 @@ export default function ProductCard({ product }: { product: Product }) {
               {/* Contenido reciclado */}
               {product.environmentalImpact.recycledContent > 0 && (
                 <div className="flex items-center gap-2 ">
-                  <Package className="w-3 h-3 flex-shrink-0" />
+                  <Package className="w-3 h-3 shrink-0" />
                   <span>
                     {product.environmentalImpact.recycledContent}% reciclado
                   </span>

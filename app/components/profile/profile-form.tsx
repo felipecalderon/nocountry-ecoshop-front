@@ -79,46 +79,44 @@ export function ProfileForm() {
   }
 
   return (
-    <Card className="w-full max-w-md">
-      <form onSubmit={handleSubmit}>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">Nombre</Label>
-            <Input
-              id="firstName"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              placeholder="John"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Apellido</Label>
-            <Input
-              id="lastName"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              placeholder="Doe"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="phone">Teléfono</Label>
-            <Input
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="+1234567890"
-            />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <Button type="submit" disabled={saving} className="mt-6">
-            {saving ? "Guardando..." : "Guardar"}
-          </Button>
-        </CardFooter>
-      </form>
-    </Card>
+    <form onSubmit={handleSubmit}>
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="firstName">Nombre</Label>
+          <Input
+            id="firstName"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+            placeholder="John"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="lastName">Apellido</Label>
+          <Input
+            id="lastName"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+            placeholder="Doe"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="phone">Teléfono</Label>
+          <Input
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            placeholder="+1234567890"
+          />
+        </div>
+      </div>
+      <div>
+        <Button type="submit" disabled={saving} className="mt-6">
+          {saving ? "Guardando..." : "Guardar"}
+        </Button>
+      </div>
+    </form>
   )
 }
