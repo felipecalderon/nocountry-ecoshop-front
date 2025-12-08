@@ -82,7 +82,10 @@ export default function ProductCard({ product }: { product: Product }) {
   }
 
   const ecoBadge = ecoBadgeConfig[product.environmentalImpact.ecoBadgeLevel]
-  const recyclability = recyclabilityConfig[product.recyclabilityStatus]
+  const recyclability = recyclabilityConfig[product.recyclabilityStatus] || {
+    label: "N/A",
+    className: "bg-gray-500/20 text-gray-700 dark:text-gray-300",
+  }
   const isLowStock = product.stock > 0 && product.stock <= 5
   const isOutOfStock = product.stock === 0
 
