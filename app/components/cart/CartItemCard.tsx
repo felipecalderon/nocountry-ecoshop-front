@@ -5,20 +5,20 @@ import Image from "next/image"
 import { Trash2, Plus, Minus } from "lucide-react"
 import { useCartStore } from "@/stores/cartStore"
 import { Button } from "../ui/button"
-import { CartItemCardProps } from "@/types/cart.types"
+import { CartItemCardProps } from "@/types"
 
 function CartItemCard({ item }: CartItemCardProps) {
   const { updateQuantity, removeItem } = useCartStore()
 
   return (
     <section className="flex items-center gap-4 border rounded-lg p-4 hover:shadow-md transition-shadow dark:bg-gray-800/60">
-      <figure className="shrink-0">
+      <figure className="shrink-0 w-24 h-24">
         <Image
           src={item.image}
           alt={item.imageAltText}
           width={96}
           height={96}
-          className="rounded-md object-cover"
+          className="rounded-md object-cover w-full h-full"
         />
       </figure>
 

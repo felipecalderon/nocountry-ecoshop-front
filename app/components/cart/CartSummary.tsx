@@ -3,7 +3,7 @@ import { ArrowRight, Lightbulb, Sprout } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { Separator } from "@/app/components/ui/separator"
 import SummaryInfo from "./SummaryInfo"
-import { CartSummaryProps } from "@/types/cart.types"
+import { CartSummaryProps } from "@/types"
 
 export default function CartSummary({
   totalItems,
@@ -58,24 +58,28 @@ export default function CartSummary({
               <p>${finalTotal.toFixed(2)}</p>
             </div>
 
-            <div className="flex justify-between bg-green-50 dark:bg-green-950 p-2 rounded">
-              <aside className="flex items-center gap-2">
-                <Sprout className="h-4 w-4 text-green-800 dark:text-green-200" />
-                <small>Huella de carbono</small>
-              </aside>
-              <p className="font-semibold">
-                {carbonFootprint.toFixed(2)} kg CO₂
-              </p>
-            </div>
+            {totalItems > 0 && (
+              <div className="flex justify-between bg-green-50 dark:bg-green-950 p-2 rounded">
+                <aside className="flex items-center gap-2">
+                  <Sprout className="h-4 w-4 text-green-800 dark:text-green-200" />
+                  <small>Huella de carbono</small>
+                </aside>
+                <p className="font-semibold">
+                  {carbonFootprint.toFixed(2)} kg CO₂
+                </p>
+              </div>
+            )}
           </li>
         </ul>
 
-        <Button className="w-full" size="lg" asChild>
-          <Link href="/checkout">
-            Proceder al pago
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
-        </Button>
+        {totalItems > 0 && (
+          <Button className="w-full" size="lg" asChild>
+            <Link href="/checkout">
+              Proceder al pago
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+        )}
         <Button
           variant="outline"
           className="w-full dark:hover:text-gray-200"

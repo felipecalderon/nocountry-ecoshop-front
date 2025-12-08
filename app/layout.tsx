@@ -37,7 +37,7 @@ export default async function RootLayout({
   if (accessToken) {
     user = await loginUser(accessToken)
   }
-  // console.log({ session })
+  console.log({ session })
   return (
     <ViewTransitions>
       <html lang="es">

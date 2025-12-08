@@ -130,6 +130,18 @@ function AddressForm({ onCancel }: AddressFormProps) {
         />
 
         <div className="flex gap-3 pt-4 [&>button]:cursor-pointer">
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              disabled={isSubmitting}
+              className="flex-1 dark:hover:text-white"
+            >
+              Cancelar
+            </Button>
+          )}
+
           <Button
             type="submit"
             disabled={isSubmitting}
@@ -144,18 +156,6 @@ function AddressForm({ onCancel }: AddressFormProps) {
               "Crear Dirección"
             )}
           </Button>
-
-          {onCancel && (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={onCancel}
-              disabled={isSubmitting}
-              className="flex-1 dark:hover:text-white"
-            >
-              Cancelar
-            </Button>
-          )}
         </div>
       </form>
     </Form>

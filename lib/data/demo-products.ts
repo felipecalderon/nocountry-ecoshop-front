@@ -1,4 +1,4 @@
-import { Product, RecyclabilityStatus } from "@/types/product.types"
+import { Product, RecyclabilityStatus } from "@/types"
 
 export const demoProducts: any[] = [
   {

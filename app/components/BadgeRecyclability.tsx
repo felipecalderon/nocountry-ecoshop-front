@@ -1,5 +1,5 @@
 import { Box } from "lucide-react"
-import { RecyclabilityStatus } from "@/types/product.types"
+import { RecyclabilityStatus } from "@/types"
 import { Badge } from "./ui/badge"
 
 export default function BadgeRecyclability({

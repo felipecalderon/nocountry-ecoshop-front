@@ -13,7 +13,7 @@ import { useTransitionRouter } from "next-view-transitions"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import { RecyclabilityStatus } from "@/types/product.types"
+import { RecyclabilityStatus } from "@/types"
 import { Button } from "../ui/button"
 import {
   Search,

@@ -9,6 +9,7 @@ import {
   Certification,
   CreateProductDto,
   RecyclabilityStatus,
+  Material,
 } from "@/types"
 import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
@@ -24,7 +25,7 @@ import {
 import { Loader2 } from "lucide-react"
 
 interface ProductFormProps {
-  materials: MaterialComposition[]
+  materials: Material[]
   certifications: Certification[]
 }
 
@@ -193,7 +194,7 @@ export default function ProductForm({
             <SelectContent>
               {materials.map((m) => (
                 <SelectItem key={m.id} value={m.id}>
-                  {m.materialComposition.name}
+                  {m.name}
                 </SelectItem>
               ))}
             </SelectContent>
