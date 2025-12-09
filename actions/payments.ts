@@ -1,7 +1,12 @@
+"use server"
+
 import { fetcher } from "@/lib/fetcher"
 import { auth0 } from "@/lib/auth0"
+import { ApiResponse } from "@/types"
 
-export const createCheckoutSession = async (data: { orderId: string }) => {
+export const createCheckoutSession = async (data: {
+  orderId: string
+}): Promise<ApiResponse<{ url: string }>> => {
   try {
     const { token } = await auth0.getAccessToken()
     return await fetcher("POST", "/payments/create-checkout-session", {
