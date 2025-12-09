@@ -45,9 +45,9 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         icon: "MapPin",
       },
       {
-        label: "Eco Puntos",
-        href: "/dashboard/customer/rewards",
-        icon: "Award",
+        label: "Mi Billetera",
+        href: "/dashboard/customer/wallet",
+        icon: "Wallet",
       },
     ],
   },
@@ -79,6 +79,11 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         label: "Materiales",
         href: "/dashboard/admin/materials",
         icon: "Hammer",
+      },
+      {
+        label: "Gestionar Wallet",
+        href: "/dashboard/admin/wallet",
+        icon: "Wallet",
       },
       {
         label: "Configuración",
@@ -115,6 +120,11 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         label: "Mi Marca",
         href: "/dashboard/brand_admin/brand",
         icon: "Store",
+      },
+      {
+        label: "Mi Billetera",
+        href: "/dashboard/brand_admin/wallet",
+        icon: "Wallet",
       },
       {
         label: "Configuración",

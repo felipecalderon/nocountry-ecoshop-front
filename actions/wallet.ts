@@ -1,27 +1,45 @@
+"use server"
 import { fetcher } from "@/lib/fetcher"
-import { RedeemPointsDto, CreateRewardDto } from "@/types"
+import {
+  CreateRewardDto,
+  WalletReward,
+  WalletBalance,
+  RewardAdminDto,
+} from "@/types"
+import { auth0 } from "@/lib/auth0"
+import { AxiosError } from "axios"
 
 export const getBalance = async () => {
   try {
-    return await fetcher("GET", "/wallet/balance")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: WalletBalance }>("GET", "/wallet/balance", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error fetching wallet balance:", error)
-    return null
+    throw error
   }
 }
 
 export const getHistory = async () => {
   try {
-    return await fetcher("GET", "/wallet/history")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: WalletBalance[] }>("GET", "/wallet/history", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error fetching wallet history:", error)
-    return []
+    throw error
   }
 }
 
-export const redeemPoints = async (data: RedeemPointsDto) => {
+export const redeemPoints = async (data: CreateRewardDto) => {
   try {
-    return await fetcher("POST", "/wallet/redeem", { data })
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: WalletBalance[] }>("POST", "/wallet/redeem", {
+      data,
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error redeeming points:", error)
     throw error
@@ -30,17 +48,27 @@ export const redeemPoints = async (data: RedeemPointsDto) => {
 
 export const getRewards = async () => {
   try {
-    return await fetcher("GET", "/wallet/rewards")
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: WalletReward[] }>("GET", "/wallet/rewards", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
     console.error("Error fetching rewards:", error)
-    return []
+    throw error
   }
 }
 
-export const createReward = async (data: CreateRewardDto) => {
+export const createReward = async (data: RewardAdminDto) => {
   try {
-    return await fetcher("POST", "/wallet/rewards", { data })
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: WalletReward }>("POST", "/wallet/rewards", {
+      data,
+      headers: { Authorization: `Bearer ${token}` },
+    })
   } catch (error) {
+    if (error instanceof AxiosError) {
+      console.error("Error creating reward:", error.response)
+    }
     console.error("Error creating reward:", error)
     throw error
   }
