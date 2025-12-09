@@ -132,7 +132,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
               {/* Certificaciones como medallas - Superior derecha */}
               {product.certifications && product.certifications.length > 0 && (
-                <div className="absolute z-50  -top-2 -left-2 z-10 flex flex-col gap-1">
+                <div className="absolute -top-2 -left-2 z-10 flex flex-col gap-1">
                   {product.certifications.slice(0, 3).map((cert, index) => (
                     <div
                       key={cert.id}
@@ -164,7 +164,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
               {/* Botón agregar al carrito */}
               <Button
-                className="absolute hover:scale-110 z-50 w-12 h-12 -bottom-3 -right-3 dark:bg-lime-500 dark:hover:bg-lime-400 bg-green-600 hover:bg-green-500 text-white font-black cursor-pointer shadow-lg rounded-full"
+                className="absolute hover:scale-110 z-10 w-12 h-12 -bottom-3 -right-3 dark:bg-lime-500 dark:hover:bg-lime-400 bg-green-600 hover:bg-green-500 text-white font-black cursor-pointer shadow-lg rounded-full"
                 onClick={handleAddToCart}
                 title="Agregar al carrito"
                 disabled={isOutOfStock}
@@ -174,16 +174,16 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
 
             {/* Título y descripción */}
-            <CardTitle className="text-base line-clamp-2 min-h-[3rem]">
+            <CardTitle className="text-base line-clamp-2 min-h-12">
               {product.name}
             </CardTitle>
-            <CardDescription className="text-xs line-clamp-2 min-h-[2.5rem]">
+            <CardDescription className="text-xs line-clamp-2 min-h-12">
               {product.description}
             </CardDescription>
           </CardHeader>
 
           {/* Content con información adicional */}
-          <CardContent className="p-4 bg-primary/20 dark:bg-secondary/50 flex-grow space-y-3">
+          <CardContent className="p-4 bg-primary/20 dark:bg-secondary/50 grow space-y-3">
             {/* Precio */}
             <div className="text-2xl text-red-700 dark:text-lime-400 font-black text-center">
               ${product.price} USD

@@ -74,3 +74,25 @@ export interface CreateProductDto {
   materials: MaterialComposition[]
   certificationIds: string[]
 }
+
+/**
+ * Payload específico para la creación de productos (según requerimientos)
+ */
+export interface CreateProductPayload {
+  name: string
+  image: string
+  description: string
+  price: number
+  stock: number
+  originCountry: string
+  weightKg: number
+  imageAltText?: string
+  environmentalImpact: {
+    recycledContent: number
+    materials: Array<{
+      materialCompositionId: string
+      percentage: number
+    }>
+  }
+  certificationIds: string[]
+}
