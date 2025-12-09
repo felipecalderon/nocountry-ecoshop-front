@@ -7,12 +7,16 @@ import { auth0 } from "@/lib/auth0"
 export const getDashboardStats = async () => {
   try {
     const { token } = await auth0.getAccessToken()
-    return await fetcher<AdminStatsDto>("GET", "/admin/dashboard/stats", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    return await fetcher<{ data: AdminStatsDto }>(
+      "GET",
+      "/admin/dashboard/stats",
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    )
   } catch (error) {
     console.error("Error fetching admin stats:", error)
-    return null
+    throw error
   }
 }
 
