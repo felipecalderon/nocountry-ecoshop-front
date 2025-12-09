@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { ArrowRight, Lightbulb, Sprout } from "lucide-react"
+import { ArrowRight, Lightbulb, LogIn, Sprout } from "lucide-react"
+import { useAuth } from "@/stores/useAuthStore"
 import { Button } from "@/app/components/ui/button"
 import { Separator } from "@/app/components/ui/separator"
 import SummaryInfo from "./SummaryInfo"
@@ -10,8 +11,20 @@ export default function CartSummary({
   totalPrice,
   carbonFootprint,
 }: CartSummaryProps) {
+  const { user } = useAuth()
   const shippingCost = totalPrice > 50 ? 0 : 5
   const finalTotal = totalPrice + shippingCost
+
+  const isLoggedIn = !!user
+  const checkoutLink = isLoggedIn ? "/checkout" : "/auth/login"
+  const checkoutText = isLoggedIn
+    ? "Proceder al pago"
+    : "Inicia sesión para proceder"
+  const checkoutIcon = isLoggedIn ? (
+    <ArrowRight className="ml-2 h-4 w-4" />
+  ) : (
+    <LogIn className="ml-2 h-4 w-4" />
+  )
 
   return (
     <section className="lg:col-span-1">
@@ -74,9 +87,9 @@ export default function CartSummary({
 
         {totalItems > 0 && (
           <Button className="w-full" size="lg" asChild>
-            <Link href="/checkout">
-              Proceder al pago
-              <ArrowRight className="ml-2 h-4 w-4" />
+            <Link href={checkoutLink}>
+              {checkoutText}
+              {checkoutIcon}
             </Link>
           </Button>
         )}
