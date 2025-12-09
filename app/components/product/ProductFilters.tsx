@@ -123,7 +123,7 @@ export default function ProductFilters() {
   }
 
   return (
-    <div className="w-full sticky top-20 md:w-64 space-y-4 p-5 border rounded-xl h-fit bg-gradient-to-br from-background from-10% to-muted/20 shadow-sm transition-all duration-300 hover:shadow-md">
+    <div className="w-full sticky top-20 md:w-64 space-y-4 p-5 border rounded-xl h-fit bg-linear-to-br from-background from-10% to-muted/20 shadow-sm transition-all duration-300 hover:shadow-md">
       {/* Header con contador de filtros */}
       <div className="flex justify-between items-center pb-3 border-b">
         <div className="flex items-center gap-2">

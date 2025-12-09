@@ -1,3 +1,4 @@
+"use server"
 import { fetcher } from "@/lib/fetcher"
 import { Certification, CreateCertificationDto } from "@/types"
 import { auth0 } from "@/lib/auth0"
