@@ -1,14 +1,42 @@
-export interface RedeemPointsDto {
-  rewardId: string
-  amount: number
+export enum RewardType {
+  DONATION = "DONATION",
+  COUPON = "COUPON",
+  PRODUCT = "PRODUCT",
 }
 
-export interface CreateRewardDto {
+export interface WalletBalance {
+  id: string
+  userId: string
+  balance: number
+  level: string
+  version: number
+  createdAt: string
+  updatedAt: string
+}
+
+export interface WalletReward {
+  id: string
   name: string
-  description?: string
+  description: string
   costInPoints: number
-  imageUrl?: string
-  stock?: number
-  type: "DONATION" | "COUPON" | "PRODUCT"
-  isActive?: boolean
+  imageUrl: string
+  stock: number
+  isActive: boolean
+  type: RewardType
+  metadata: {
+    discountPercentage: number
+    validDays: number
+  } | null
+  createdAt: string
+  updatedAt: string
+}
+
+export type RewardAdminDto = Omit<
+  WalletReward,
+  "id" | "createdAt" | "updatedAt" | "imageUrl"
+>
+
+export interface CreateRewardDto {
+  rewardId: string
+  amount: number
 }
