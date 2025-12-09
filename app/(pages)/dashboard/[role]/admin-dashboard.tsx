@@ -14,7 +14,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getDashboardStats()
+        const { data } = await getDashboardStats()
         if (data) {
           setStats(data)
         }
@@ -36,13 +36,14 @@ export default function AdminDashboard() {
     )
   }
 
+  console.log(stats)
   return (
     <div className="space-y-6">
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsWidget
           label="Ingresos Totales"
-          value={`$${stats?.totalRevenue?.toFixed(2) || "0.00"}`}
+          value={`$${stats?.totalRevenue || "0.00"}`}
           icon={DollarSign}
           iconColor="text-green-600"
         />
