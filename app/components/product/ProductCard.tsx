@@ -15,7 +15,16 @@ import { useTransitionRouter } from "next-view-transitions"
 import { useCartStore } from "@/stores/cartStore"
 import { toast } from "sonner"
 import { MagicCard } from "../ui/magic-card"
-import { Leaf, MapPin, Package, Recycle, ShoppingCart } from "lucide-react"
+import {
+  Leaf,
+  MapPin,
+  Package,
+  Recycle,
+  ShoppingCart,
+  Heart,
+} from "lucide-react"
+import { useFavoritesStore } from "@/stores/useFavoritesStore"
+import { useEffect, useState } from "react"
 
 const ecoBadgeConfig = {
   LOW: {
@@ -61,6 +70,12 @@ const recyclabilityConfig = {
 export default function ProductCard({ product }: { product: Product }) {
   const router = useTransitionRouter()
   const { addItem } = useCartStore()
+  const { toggleFavorite, isFavorite } = useFavoritesStore()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const goToProduct = () => {
     router.push(`store/${product.id}`)
@@ -170,6 +185,25 @@ export default function ProductCard({ product }: { product: Product }) {
                 disabled={isOutOfStock}
               >
                 <ShoppingCart className="w-5 h-5" />
+              </Button>
+
+              {/* Botón favoritos */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute top-2 right-2 z-10 bg-white/50 hover:bg-white/80 dark:bg-black/30 dark:hover:bg-black/50 backdrop-blur-sm rounded-full w-8 h-8 p-0"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleFavorite(product.id)
+                }}
+              >
+                <Heart
+                  className={`w-5 h-5 transition-colors ${
+                    mounted && isFavorite(product.id)
+                      ? "fill-red-500 text-red-500"
+                      : "text-gray-700 dark:text-gray-200"
+                  }`}
+                />
               </Button>
             </div>
 

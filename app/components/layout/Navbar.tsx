@@ -71,6 +71,14 @@ export default function Navbar({ user }: { user: User | null }) {
                     asChild
                     className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
+                    <Link href="/favorites">Favoritos</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
+                  >
                     <Link href="/contact">Contacto</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>

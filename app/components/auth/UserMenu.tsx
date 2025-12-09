@@ -35,12 +35,16 @@ export default function UserMenu() {
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/dashboard">Dashboard</Link>
-          </DropdownMenuItem>
+          <Link href="/dashboard">
+            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+          </Link>
           <DropdownMenuItem>Mis Pedidos</DropdownMenuItem>
-          <DropdownMenuItem>Favoritos</DropdownMenuItem>
-          <DropdownMenuItem>Perfil</DropdownMenuItem>
+          <Link href="/favorites">
+            <DropdownMenuItem>Favoritos</DropdownMenuItem>
+          </Link>
+          <Link href={`/dashboard/${user.role}/settings`}>
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <a href="/auth/logout">
