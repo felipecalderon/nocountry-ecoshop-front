@@ -9,27 +9,26 @@ import {
 } from "@/app/components/ui/card"
 import { Button } from "@/app/components/ui/button"
 import { Separator } from "@/app/components/ui/separator"
-import { CartItem } from "@/types"
+import { useCartStore } from "@/stores/cartStore"
 
 interface CheckoutSummaryProps {
-  items: CartItem[]
-  subtotal: number
-  shipping: number
-  total: number
   onCheckout: () => void
   isProcessing: boolean
   canCheckout: boolean
 }
 
 export default function CheckoutSummary({
-  items,
-  subtotal,
-  shipping,
-  total,
   onCheckout,
   isProcessing,
   canCheckout,
 }: CheckoutSummaryProps) {
+  const { items, getTotalPrice } = useCartStore()
+  const totalItems = useCartStore((state) => state.getTotalItems())
+
+  const totalPrice = getTotalPrice()
+  const shippingCost = totalPrice > 50 ? 0 : 5
+  const finalTotal = totalPrice + shippingCost
+
   return (
     <Card className="lg:col-span-1 sticky top-4">
       <CardHeader>
@@ -39,20 +38,20 @@ export default function CheckoutSummary({
         <div className="space-y-3">
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">
-              Subtotal ({items.length} items)
+              Subtotal ({totalItems} items)
             </span>
-            <span className="font-medium">${subtotal.toFixed(2)}</span>
+            <span className="font-medium">${totalPrice.toFixed(2)}</span>
           </div>
 
           <div className="flex justify-between text-sm">
             <span className="text-muted-foreground">Envío</span>
             <span className="font-medium">
-              {shipping === 0 ? (
+              {shippingCost === 0 ? (
                 <span className="text-green-600 dark:text-green-400">
                   ¡Gratis!
                 </span>
               ) : (
-                `$${shipping.toFixed(2)}`
+                `$${shippingCost.toFixed(2)}`
               )}
             </span>
           </div>
@@ -61,7 +60,7 @@ export default function CheckoutSummary({
 
           <div className="flex justify-between font-bold text-lg">
             <span>Total</span>
-            <span>${total.toFixed(2)}</span>
+            <span>${finalTotal.toFixed(2)}</span>
           </div>
         </div>
 
