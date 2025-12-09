@@ -76,9 +76,9 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         icon: "ShoppingCart",
       },
       {
-        label: "Reportes",
-        href: "/dashboard/admin/reports",
-        icon: "BarChart3",
+        label: "Materiales",
+        href: "/dashboard/admin/materials",
+        icon: "Hammer",
       },
       {
         label: "Configuración",

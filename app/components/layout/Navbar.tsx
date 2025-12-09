@@ -8,8 +8,8 @@ import {
 import { Link } from "next-view-transitions"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
-import { Search } from "lucide-react"
 import { User } from "@/types"
+import SearchModal from "./SearchModal"
 import { useAuth } from "@/stores/useAuthStore"
 import { useEffect } from "react"
 import { CartBadge } from "./CartBadge"
@@ -71,13 +71,21 @@ export default function Navbar({ user }: { user: User | null }) {
                     asChild
                     className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
                   >
+                    <Link href="/favorites">Favoritos</Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    asChild
+                    className="px-3 py-2 text-sm font-medium text-secondary dark:text-white hover:text-white transition-colors rounded-md hover:bg-muted"
+                  >
                     <Link href="/contact">Contacto</Link>
                   </NavigationMenuLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex gap-2 text-primary dark:text-secondary">
-              <Search className="cursor-pointer" />
+            <div className="flex gap-3 items-center text-primary dark:text-secondary">
+              <SearchModal />
               <CartBadge />
             </div>
           </div>

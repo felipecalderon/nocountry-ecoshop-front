@@ -13,13 +13,21 @@ import {
 import { User } from "lucide-react"
 import { Button } from "../ui/button"
 import { Link } from "next-view-transitions"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 export default function UserMenu() {
   const { user } = useAuth()
   if (!user)
     return (
       <a href="/auth/login">
-        <User className="cursor-pointer mt-1" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <User className="cursor-pointer mt-1" />
+          </TooltipTrigger>
+          <TooltipContent align="center" side="bottom">
+            <p>Iniciar Sesión</p>
+          </TooltipContent>
+        </Tooltip>
       </a>
     )
   return (
@@ -35,12 +43,15 @@ export default function UserMenu() {
       <DropdownMenuContent className="w-56" align="start">
         <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/dashboard">Dashboard</Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>Mis Pedidos</DropdownMenuItem>
-          <DropdownMenuItem>Favoritos</DropdownMenuItem>
-          <DropdownMenuItem>Perfil</DropdownMenuItem>
+          <Link href="/dashboard">
+            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+          </Link>
+          <Link href="/favorites">
+            <DropdownMenuItem>Favoritos</DropdownMenuItem>
+          </Link>
+          <Link href={`/dashboard/${user.role}/settings`}>
+            <DropdownMenuItem>Perfil</DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <a href="/auth/logout">

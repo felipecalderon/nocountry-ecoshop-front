@@ -5,6 +5,8 @@ import { Menu, Search, ShoppingCart, X } from "lucide-react"
 import { Link } from "next-view-transitions"
 import { useState } from "react"
 import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
+import SearchModal from "./SearchModal"
+import { CartBadge } from "./CartBadge"
 
 export default function MobileNavbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -13,8 +15,8 @@ export default function MobileNavbar() {
     <div className="md:hidden absolute top-3 right-6">
       <div className="flex gap-4 items-center text-primary dark:text-secondary">
         <AnimatedThemeToggler className="cursor-pointer" />
-        <Search className="cursor-pointer" />
-        <ShoppingCart className="cursor-pointer" />
+        <SearchModal />
+        <CartBadge />
         <Button
           variant="ghost"
           size="icon"
