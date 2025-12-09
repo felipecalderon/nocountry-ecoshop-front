@@ -1,10 +1,17 @@
 "use server"
 
 import { fetcher } from "@/lib/fetcher"
-import { CreateOrderDto, ApiResponse, Order } from "@/types"
+import {
+  CreateOrderDto,
+  ApiResponse,
+  Order,
+  CreatedOrderResponse,
+} from "@/types"
 import { auth0 } from "@/lib/auth0"
 
-export const createOrder = async (data: CreateOrderDto) => {
+export const createOrder = async (
+  data: CreateOrderDto
+): Promise<ApiResponse<CreatedOrderResponse>> => {
   try {
     const { token } = await auth0.getAccessToken()
     return await fetcher("POST", "/orders", {
