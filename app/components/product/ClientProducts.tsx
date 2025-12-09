@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react"
 import { useProductStore } from "@/stores/useProductStore"
 import { Product } from "@/types"
-import { Plus, Edit, Trash2, Loader2 } from "lucide-react"
+import { Plus, Edit, Trash2, Loader2, Search } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/app/components/ui/button"
+import { Input } from "@/app/components/ui/input"
 import { deleteProduct } from "@/actions/products"
 import { toast } from "sonner"
 import { useAuth } from "@/stores/useAuthStore"
@@ -20,6 +21,14 @@ export default function ClientProducts({
   const { products, setProducts } = useProductStore()
   const { user } = useAuth()
   const [deletingId, setDeletingId] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const filteredProducts = products.filter(
+    (product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   useEffect(() => {
     setProducts(initialProducts)
@@ -57,8 +66,19 @@ export default function ClientProducts({
         </Link>
       </div>
 
+      <div className="relative">
+        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <Input
+          type="search"
+          placeholder="Buscar por nombre, SKU o descripción..."
+          className="pl-8 max-w-sm"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {products.map((product) => (
+        {filteredProducts.map((product) => (
           <div
             key={product.id}
             className="rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col justify-between"
@@ -122,6 +142,16 @@ export default function ClientProducts({
             </div>
           </div>
         ))}
+        {filteredProducts.length === 0 && products.length > 0 && (
+          <div className="col-span-full flex flex-col items-center justify-center p-12 text-center border rounded-lg border-dashed">
+            <h3 className="text-lg font-semibold">
+              No se encontraron productos
+            </h3>
+            <p className="text-muted-foreground">
+              Intenta con otros términos de búsqueda
+            </p>
+          </div>
+        )}
         {products.length === 0 && (
           <div className="col-span-full flex flex-col items-center justify-center p-12 text-center border rounded-lg border-dashed">
             <h3 className="text-lg font-semibold">No hay productos</h3>

@@ -8,8 +8,8 @@ import {
 import { Link } from "next-view-transitions"
 import MobileNavbar from "./MobileNavbar"
 import Image from "next/image"
-import { Search } from "lucide-react"
 import { User } from "@/types"
+import SearchModal from "./SearchModal"
 import { useAuth } from "@/stores/useAuthStore"
 import { useEffect } from "react"
 import { CartBadge } from "./CartBadge"
@@ -84,8 +84,8 @@ export default function Navbar({ user }: { user: User | null }) {
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <div className="flex gap-2 text-primary dark:text-secondary">
-              <Search className="cursor-pointer" />
+            <div className="flex gap-3 items-center text-primary dark:text-secondary">
+              <SearchModal />
               <CartBadge />
             </div>
           </div>

@@ -6,6 +6,7 @@ import { flushSync } from "react-dom"
 import { cn } from "@/lib/utils"
 import { useDarkMode } from "@/stores/useDarkMode"
 import { useApplyTheme } from "@/hooks/useApplyTheme"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip"
 
 interface AnimatedThemeTogglerProps
   extends React.ComponentPropsWithoutRef<"button"> {
@@ -57,14 +58,21 @@ export const AnimatedThemeToggler = ({
   }, [toggleTheme, duration])
 
   return (
-    <button
-      ref={buttonRef}
-      onClick={handleToggleTheme}
-      className={cn(className)}
-      {...props}
-    >
-      {isDark ? <Sun /> : <Moon />}
-      <span className="sr-only">Cambiar modo claro/oscuro</span>
-    </button>
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          ref={buttonRef}
+          onClick={handleToggleTheme}
+          className={cn(className)}
+          {...props}
+        >
+          {isDark ? <Sun /> : <Moon />}
+          <span className="sr-only">Cambiar modo claro/oscuro</span>
+        </button>
+      </TooltipTrigger>
+      <TooltipContent align="center" side="bottom">
+        <p>Cambiar modo claro/oscuro</p>
+      </TooltipContent>
+    </Tooltip>
   )
 }

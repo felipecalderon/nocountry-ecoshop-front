@@ -13,13 +13,21 @@ import {
 import { User } from "lucide-react"
 import { Button } from "../ui/button"
 import { Link } from "next-view-transitions"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
 
 export default function UserMenu() {
   const { user } = useAuth()
   if (!user)
     return (
       <a href="/auth/login">
-        <User className="cursor-pointer mt-1" />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <User className="cursor-pointer mt-1" />
+          </TooltipTrigger>
+          <TooltipContent align="center" side="bottom">
+            <p>Iniciar Sesión</p>
+          </TooltipContent>
+        </Tooltip>
       </a>
     )
   return (
@@ -38,7 +46,6 @@ export default function UserMenu() {
           <Link href="/dashboard">
             <DropdownMenuItem>Dashboard</DropdownMenuItem>
           </Link>
-          <DropdownMenuItem>Mis Pedidos</DropdownMenuItem>
           <Link href="/favorites">
             <DropdownMenuItem>Favoritos</DropdownMenuItem>
           </Link>
