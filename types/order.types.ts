@@ -32,3 +32,10 @@ export interface PaymentWebhookDto {
   stripeSignature: string
   payload: string
 }
+
+export interface CreatedOrderResponse {
+  orderId: string
+  totalPrice: number
+  totalCarbonFootprint: string
+  message: string
+}
