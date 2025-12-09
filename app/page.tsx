@@ -1,23 +1,26 @@
-import Image from "next/image"
 import HeroBannerSlider from "./components/home/HeroBannerSlider"
+import ProductCard from "./components/product/ProductCard"
+import WhyChooseUs from "./components/home/WhyChooseUs"
+import NewsletterSubscription from "./components/home/NewsletterSubscription"
+import { Button } from "./components/ui/button"
+import Link from "next/link"
+import { getProducts } from "@/actions/products"
 
-export default function Home() {
+export default async function Home() {
+  const { data } = await getProducts()
   return (
-    <>
+    <div>
       <HeroBannerSlider />
-      <Image
-        className="dark:invert"
-        src="/next.svg"
-        alt="Next.js logo"
-        width={100}
-        height={20}
-        priority
-      />
-      <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-        <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-          Hola mundo
-        </h1>
+      <div className="flex flex-wrap gap-6 justify-center py-12">
+        {data.map((p) => <ProductCard key={p.id} product={p} />).slice(0, 4)}
       </div>
-    </>
+      <div className="flex justify-center mb-10">
+        <Link href="/store">
+          <Button>Ver todos los productos</Button>
+        </Link>
+      </div>
+      <WhyChooseUs />
+      <NewsletterSubscription />
+    </div>
   )
 }

@@ -1,63 +1,74 @@
-import Link from "next/link";
+import Image from "next/image"
+import { TooltipProvider } from "@/app/components/ui/tooltip"
+import SocialIconLink from "./ui/SocialIconLink"
+import ItemLinkColumn from "./ui/ItemLinkColumn"
+import { footerColumns } from "@/lib/data/footerLinks"
+import { socialIconLinks } from "@/lib/data/socials"
 
-export default function Footer() {
+function Footer() {
   return (
-    <footer className="border-t border-border bg-card mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Acerca de</h3>
-            <p className="text-sm text-muted-foreground">
-              Ecoshop la mejor tienda ecológica del mundo mundial
-            </p>
-          </div>
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Enlaces</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  href="/"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Inicio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Acerca de
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="font-semibold text-foreground mb-4">Legal</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Privacidad
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="hover:text-foreground transition-colors"
-                >
-                  Términos
-                </Link>
-              </li>
-            </ul>
+    <footer
+      className="pt-10 bg-[url('/images/footer-background.avif')] bg-cover lg:bg-contain bg-no-repeat bg-bottom dark:bg-primary shadow-2xl"
+      id="footer"
+    >
+      <section className="mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <figure className="w-28 h-28 mb-8 rounded-full shadow-lg overflow-hidden mx-auto">
+          <Image
+            src="/images/ecoshop-logo.avif"
+            alt="Ecoshop Logo"
+            width={400}
+            height={400}
+            className="w-full object-cover"
+          />
+        </figure>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 my-4">
+          {footerColumns.map((column) => (
+            <ItemLinkColumn key={column.title} column={column} />
+          ))}
+
+          <div className="hidden sm:block">
+            <h3 className="text-secondary font-semibold text-lg mb-4">
+              Formas de Pago
+            </h3>
+            <figure>
+              <Image
+                src="/images/payment-methods.avif"
+                alt="Formas de Pago"
+                width={800}
+                height={454}
+                className="w-full object-cover max-w-80"
+              />
+            </figure>
           </div>
         </div>
-        <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 MyApp. Todos los derechos reservados.</p>
-        </div>
-      </div>
+      </section>
+
+      <section className="max-w-7xl px-4 sm:px-6 lg:px-8 py-6 border-t border-stone-400 mx-auto">
+        <article className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-gray-600 text-sm font-medium">
+            © 2025 Ecoshop. Todos los derechos reservados.
+          </p>
+
+          <aside className="flex gap-3">
+            <TooltipProvider>
+              {socialIconLinks.map(
+                ({ href, IconComponent, label, hoverClass }) => (
+                  <SocialIconLink
+                    key={label}
+                    href={href}
+                    IconComponent={IconComponent}
+                    label={label}
+                    hoverClass={hoverClass}
+                  />
+                )
+              )}
+            </TooltipProvider>
+          </aside>
+        </article>
+      </section>
     </footer>
-  );
+  )
 }
+
+export default Footer

@@ -1,0 +1,22 @@
+"use client"
+import { AnimatedThemeToggler } from "../ui/animated-theme-toggler"
+import UserMenu from "../auth/UserMenu"
+
+export default function TopNavbar() {
+  return (
+    <nav
+      className="sticky flex top-0 z-40 bg-secondary"
+      style={{ viewTransitionName: "none" }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <p className="text-sm md:text-center font-semibold text-white dark:text-primary">
+          Envío gratis por compras superiores a $50 USD
+        </p>
+      </div>
+      <div className="absolute flex gap-3 right-2 sm:right-5 md:right-7 lg:right-9 xl:right-36 top-2 text-primary dark:text-white">
+        <UserMenu />
+        <AnimatedThemeToggler className="cursor-pointer mt-1" />
+      </div>
+    </nav>
+  )
+}
