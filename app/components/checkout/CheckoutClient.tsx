@@ -22,8 +22,7 @@ export default function CheckoutClient({
 }) {
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
-
-  const { items, getTotalPrice, clearCart } = useCartStore()
+  const { items, clearCart } = useCartStore()
   const {
     selectedAddressId,
     couponCode,
@@ -36,6 +35,8 @@ export default function CheckoutClient({
 
   useEffect(() => {
     setIsMounted(true)
+    setError(null)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export default function CheckoutClient({
       const orderResponse = await createOrder(orderData)
 
       const sessionResponse = await createCheckoutSession({
-        orderId: orderResponse.data.id,
+        orderId: orderResponse.data.orderId,
       })
 
       clearCart()
@@ -78,6 +79,8 @@ export default function CheckoutClient({
       setError(
         "Hubo un error al procesar tu pedido. Por favor intenta nuevamente."
       )
+      setIsProcessing(false)
+    } finally {
       setIsProcessing(false)
     }
   }
@@ -94,10 +97,6 @@ export default function CheckoutClient({
   if (items.length === 0) {
     return null
   }
-
-  const totalPrice = getTotalPrice()
-  const shippingCost = totalPrice > 50 ? 0 : 5
-  const finalTotal = totalPrice + shippingCost
 
   return (
     <section className="container mx-auto p-8">
@@ -124,10 +123,6 @@ export default function CheckoutClient({
         </aside>
 
         <CheckoutSummary
-          items={items}
-          subtotal={totalPrice}
-          shipping={shippingCost}
-          total={finalTotal}
           onCheckout={handleCheckout}
           isProcessing={isProcessing}
           canCheckout={!!selectedAddressId}
