@@ -6,6 +6,7 @@ import {
   ApiResponse,
   Order,
   CreatedOrderResponse,
+  OrderFromUser,
 } from "@/types"
 import { auth0 } from "@/lib/auth0"
 
@@ -24,7 +25,7 @@ export const createOrder = async (
   }
 }
 
-export const getOrders = async (): Promise<ApiResponse<Order[]>> => {
+export const getOrders = async (): Promise<ApiResponse<OrderFromUser[]>> => {
   try {
     const { token } = await auth0.getAccessToken()
     return await fetcher("GET", "/orders", {

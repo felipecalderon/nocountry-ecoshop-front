@@ -7,6 +7,8 @@ export interface CreateBrandDto {
   image?: string
 }
 
+export interface UpdateBrandDto extends Partial<CreateBrandDto> {}
+
 export interface BrandStatsDto {
   totalRevenue: number
   totalUnitsSold: number
