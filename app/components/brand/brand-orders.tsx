@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/app/components/ui/select"
 import DashboardCard from "../dashboard/DashboardCard"
+import { OrderFromUser, OrderItemDto } from "@/types"
 
 const statusColors: Record<string, string> = {
   pending:
@@ -33,49 +34,19 @@ const statusLabels: Record<string, string> = {
   cancelled: "Cancelado",
 }
 
-export default function BrandOrders() {
-  const [orders, setOrders] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
+export default function BrandOrders({ orders }: { orders: OrderFromUser[] }) {
   const [updating, setUpdating] = useState<string | null>(null)
-
-  const fetchOrders = async () => {
-    try {
-      const data = await getBrandOrders()
-      if (data?.data) {
-        setOrders(data.data)
-      }
-    } catch (error) {
-      console.error("Error fetching brand orders:", error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchOrders()
-  }, [])
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     setUpdating(orderId)
     try {
       await updateBrandOrderStatus(orderId, { status: newStatus as any })
-      await fetchOrders()
     } catch (error) {
       console.error("Error updating order status:", error)
       alert("Error al actualizar el estado. Por favor intenta de nuevo.")
     } finally {
       setUpdating(null)
     }
-  }
-
-  if (loading) {
-    return (
-      <DashboardCard title="Órdenes de Productos">
-        <div className="flex items-center justify-center py-12">
-          <div className="text-muted-foreground">Cargando órdenes...</div>
-        </div>
-      </DashboardCard>
-    )
   }
 
   if (orders.length === 0) {
@@ -100,12 +71,12 @@ export default function BrandOrders() {
         {orders.map((order) => (
           <div
             key={order.id}
-            className="p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors"
+            className="p-4 bg-primary/20 hover:bg-primary/10 dark:bg-secondary/20 dark:hover:bg-secondary/30 rounded-lg transition-colors"
           >
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
-                  <Package className="h-4 w-4 text-muted-foreground flex-shrink-0" />
+                  <Package className="h-4 w-4 text-muted-foreground shrink-0" />
                   <p className="font-medium text-foreground">
                     Orden #{order.id.slice(0, 8).toUpperCase()}
                   </p>
@@ -150,11 +121,11 @@ export default function BrandOrders() {
                 </div>
               </div>
 
-              <div className="text-right flex-shrink-0">
+              <div className="text-right shrink-0">
                 <div className="flex items-center gap-1 mb-2 justify-end">
                   <DollarSign className="h-4 w-4 text-green-600" />
                   <p className="font-semibold text-foreground text-lg">
-                    ${order.totalAmount?.toFixed(2) || "0.00"}
+                    ${order.totalPrice || "0.00"}
                   </p>
                 </div>
                 <Badge
