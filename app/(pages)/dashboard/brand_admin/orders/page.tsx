@@ -1,8 +1,8 @@
-"use client"
-
+import { getBrandOrders } from "@/actions/brands"
 import BrandOrders from "@/app/components/brand/brand-orders"
 
-export default function BrandOrdersPage() {
+export default async function BrandOrdersPage() {
+  const { data } = await getBrandOrders()
   return (
     <div className="space-y-6">
       <div>
@@ -12,7 +12,7 @@ export default function BrandOrdersPage() {
         </p>
       </div>
 
-      <BrandOrders />
+      <BrandOrders orders={data} />
     </div>
   )
 }

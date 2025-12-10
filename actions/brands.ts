@@ -7,6 +7,7 @@ import {
   UpdateOrderStatusDto,
   OrderItemDto,
   Brand,
+  OrderFromUser,
 } from "@/types"
 import { auth0 } from "@/lib/auth0"
 
@@ -50,7 +51,7 @@ export const getMyBrands = async () => {
 export const getBrandOrders = async () => {
   try {
     const { token } = await auth0.getAccessToken()
-    return await fetcher<{ data: OrderItemDto[]; totalPages: number }>(
+    return await fetcher<{ data: OrderFromUser[]; totalPages: number }>(
       "GET",
       "/brands/orders",
       {
@@ -59,7 +60,7 @@ export const getBrandOrders = async () => {
     )
   } catch (error) {
     console.error("Error fetching brand orders:", error)
-    return null
+    throw error
   }
 }
 

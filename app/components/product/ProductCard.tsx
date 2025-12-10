@@ -240,16 +240,6 @@ export default function ProductCard({ product }: { product: Product }) {
                   {recyclability.label}
                 </Badge>
               </div>
-
-              {/* Contenido reciclado */}
-              {product.environmentalImpact.recycledContent > 0 && (
-                <div className="flex items-center gap-2 ">
-                  <Package className="w-3 h-3 shrink-0" />
-                  <span>
-                    {product.environmentalImpact.recycledContent}% reciclado
-                  </span>
-                </div>
-              )}
             </div>
           </CardContent>
         </div>

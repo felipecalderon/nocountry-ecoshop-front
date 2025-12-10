@@ -10,6 +10,7 @@ import { Input } from "@/app/components/ui/input"
 import { deleteProduct } from "@/actions/products"
 import { toast } from "sonner"
 import { useAuth } from "@/stores/useAuthStore"
+import { useRouter } from "next/navigation"
 
 interface ClientProductsProps {
   initialProducts: Product[]
@@ -22,7 +23,7 @@ export default function ClientProducts({
   const { user } = useAuth()
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
-
+  const router = useRouter()
   const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -115,18 +116,20 @@ export default function ClientProducts({
               </div>
             </div>
 
-            <div className="p-6 pt-0 flex gap-2">
-              <Link
-                href={`/dashboard/${user?.role || "brand_admin"}/products/${
-                  product.id
-                }/edit`}
-                className="w-full"
+            <div className="p-6 pt-0 flex justify-between gap-2">
+              <Button
+                onClick={() =>
+                  router.push(
+                    `/dashboard/${user?.role || "brand_admin"}/products/${
+                      product.id
+                    }/edit`
+                  )
+                }
+                variant="outline"
               >
-                <Button variant="outline" className="w-full">
-                  <Edit className="w-4 h-4 mr-2" />
-                  Editar
-                </Button>
-              </Link>
+                <Edit className="w-4 h-4 mr-2" />
+                Editar
+              </Button>
               <Button
                 variant="destructive"
                 size="icon"

@@ -4,19 +4,25 @@ import { useEffect, useState } from "react"
 import StatsWidget from "@/app/components/dashboard/StatsWidget"
 import DashboardCard from "@/app/components/dashboard/DashboardCard"
 import { DollarSign, ShoppingBag, Package } from "lucide-react"
-import { getBrandStats } from "@/actions/brands"
-import { BrandStatsDto } from "@/types"
+import { getBrandOrders, getBrandStats } from "@/actions/brands"
+import { BrandStatsDto, OrderFromUser } from "@/types"
+import BrandOrders from "@/app/components/brand/brand-orders"
 
 export default function BrandAdminDashboard() {
   const [stats, setStats] = useState<BrandStatsDto | null>(null)
+  const [orders, setOrders] = useState<OrderFromUser[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getBrandStats()
+        const ordersData = await getBrandOrders()
         if (data) {
           setStats(data)
+        }
+        if (ordersData) {
+          setOrders(ordersData.data)
         }
       } catch (error) {
         console.error("Error fetching brand stats:", error)
@@ -60,17 +66,7 @@ export default function BrandAdminDashboard() {
         />
       </div>
 
-      {/* Welcome Message */}
-      <DashboardCard title="Panel de Marca">
-        <div className="text-center py-8">
-          <p className="text-muted-foreground">
-            Bienvenido al panel de administración de tu marca
-          </p>
-          <p className="text-sm text-muted-foreground mt-2">
-            Aquí puedes ver las estadísticas de ventas de tus productos
-          </p>
-        </div>
-      </DashboardCard>
+      <BrandOrders orders={orders} />
     </div>
   )
 }

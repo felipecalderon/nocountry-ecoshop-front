@@ -55,7 +55,7 @@ export default function OrderList({ orders }: OrderListProps) {
       {orders.map((order) => (
         <div
           key={order.id}
-          className={`p-4 bg-primary/20 hover:bg-primary/30 dark:bg-secondary/20 dark:hover:bg-secondary/30 rounded-lg transition-colors`}
+          className="p-4 bg-primary/20 hover:bg-primary/30 dark:bg-secondary/20 dark:hover:bg-secondary/30 rounded-lg transition-colors"
         >
           <div className="flex items-start justify-between gap-4">
             {/* Order Info */}

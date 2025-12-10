@@ -31,7 +31,7 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
       },
       {
         label: "Favoritos",
-        href: "/dashboard/customer/favorites",
+        href: "/favorites",
         icon: "Heart",
       },
       {
@@ -110,11 +110,6 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         label: "Órdenes",
         href: "/dashboard/brand_admin/orders",
         icon: "ShoppingBag",
-      },
-      {
-        label: "Estadísticas",
-        href: "/dashboard/brand_admin/stats",
-        icon: "BarChart3",
       },
       {
         label: "Mi Marca",

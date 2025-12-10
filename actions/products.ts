@@ -27,8 +27,9 @@ export const getBrandProducts = async () => {
 
 export const createProduct = async (data: any) => {
   try {
+    console.log(data)
     const { token } = await auth0.getAccessToken()
-    return await fetcher<Product>("POST", "/products", {
+    return await fetcher<{ data: Product }>("POST", "/products", {
       data,
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -49,8 +50,9 @@ export const getProduct = async (term: string) => {
 
 export const updateProduct = async (id: string, data: any) => {
   try {
+    console.log(data)
     const { token } = await auth0.getAccessToken()
-    return await fetcher("PATCH", `/products/${id}`, {
+    return await fetcher<{ data: Product }>("PATCH", `/products/${id}`, {
       data,
       headers: { Authorization: `Bearer ${token}` },
     })

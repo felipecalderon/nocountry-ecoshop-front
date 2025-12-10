@@ -24,30 +24,10 @@ import { uploadImage } from "@/actions/upload-image"
 import { toast } from "sonner"
 import { useAuth } from "@/stores/useAuthStore"
 import { Product } from "@/types"
-
-// Schema definition matching the requested payload
-const productSchema = z.object({
-  name: z.string().min(1, "El nombre es requerido"),
-  image: z.string().url("Debe ser una URL válida"),
-  description: z.string().min(1, "La descripción es requerida"),
-  price: z.number().min(0, "El precio no puede ser negativo"),
-  stock: z.number().min(0, "El stock no puede ser negativo"),
-  originCountry: z.string().min(1, "El país de origen es requerido"),
-  weightKg: z.number().min(0, "El peso debe ser positivo"),
-  imageAltText: z.string().optional(),
-  environmentalImpact: z.object({
-    recycledContent: z.number().min(0).max(100, "Debe estar entre 0 y 100"),
-    materials: z.array(
-      z.object({
-        materialCompositionId: z.string().min(1, "Selecciona un material"),
-        percentage: z.number().min(1).max(100, "Debe estar entre 1 y 100"),
-      })
-    ),
-  }),
-  certificationIds: z.array(z.string()),
-})
-
-type ProductFormValues = z.infer<typeof productSchema>
+import {
+  ProductFormValues,
+  productSchema,
+} from "@/lib/validations/product.schema"
 
 interface ProductFormProps {
   initialData?: Product
@@ -98,9 +78,11 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
   const imageUrl = form.watch("image")
 
-  // Reset form when initialData changes (e.g. if fetching happens after mount)
+  const [currentId, setCurrentId] = useState(initialData?.id)
+
   useEffect(() => {
-    if (initialData) {
+    if (initialData && initialData.id !== currentId) {
+      setCurrentId(initialData.id)
       form.reset({
         name: initialData.name,
         image: initialData.image,
@@ -122,7 +104,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         certificationIds: initialData.certifications?.map((c) => c.id) || [],
       })
     }
-  }, [initialData, form])
+  }, [initialData, form, currentId])
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -140,7 +122,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
       if (initialData) {
         console.log("Updating product:", data)
         const updated = await updateProduct(initialData.id, data)
-        if (updated) {
+        if (updated.data) {
           toast.success("Producto actualizado exitosamente")
           router.push(`/dashboard/${user?.role || "brand_admin"}/products`)
           router.refresh()
@@ -148,8 +130,8 @@ export default function ProductForm({ initialData }: ProductFormProps) {
       } else {
         // Create new product
         const newProduct = await createProduct(data)
-        if (newProduct) {
-          addProduct(newProduct)
+        if (newProduct.data) {
+          addProduct(newProduct.data)
           toast.success("Producto creado exitosamente")
           router.push(`/dashboard/${user?.role || "brand_admin"}/products`)
           router.refresh()
@@ -190,11 +172,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
 
       const response = await uploadImage(formData)
       if (response?.data?.url) {
-        form.setValue("image", response.data.url, {
-          shouldDirty: true,
-          shouldTouch: true,
-          shouldValidate: true,
-        })
+        form.setValue("image", response.data.url)
         toast.success("Imagen subida correctamente")
       }
     } catch (error) {
@@ -508,7 +486,7 @@ export default function ProductForm({ initialData }: ProductFormProps) {
         >
           Cancelar
         </Button>
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting || isUploadingImage}>
           {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {initialData ? "Actualizar Producto" : "Crear Producto"}
         </Button>

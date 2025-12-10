@@ -4,6 +4,8 @@ import { Menu, Bell, LogOut } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { useAuth } from "@/stores/useAuthStore"
 import { useRouter } from "next/navigation"
+import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip"
+import { TooltipArrow } from "@radix-ui/react-tooltip"
 
 interface DashboardHeaderProps {
   title: string
@@ -18,8 +20,7 @@ export default function DashboardHeader({
   const router = useRouter()
 
   const handleLogout = () => {
-    // logout()
-    router.push("/")
+    router.push("/auth/logout")
   }
 
   return (
@@ -45,12 +46,17 @@ export default function DashboardHeader({
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon">
-            <Bell className="h-5 w-5" />
-          </Button>
-          <Button variant="ghost" size="icon" onClick={handleLogout}>
-            <LogOut className="h-5 w-5" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={handleLogout}>
+                <LogOut className="h-5 w-5" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <TooltipArrow />
+              Cerrar sesión
+            </TooltipContent>
+          </Tooltip>
         </div>
       </div>
     </header>
