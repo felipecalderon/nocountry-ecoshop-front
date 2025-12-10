@@ -24,9 +24,9 @@ import {
   CardTitle,
 } from "@/app/components/ui/card"
 import { useAuth } from "@/stores/useAuthStore"
-import { useUser } from "@auth0/nextjs-auth0/client"
 import { toast } from "sonner"
 import { Camera, Loader2, User as UserIcon } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 const profileSchema = z.object({
   firstName: z.string().min(2, {
@@ -43,15 +43,15 @@ const profileSchema = z.object({
 type ProfileFormValues = z.infer<typeof profileSchema>
 
 export function ProfileForm() {
-  const { user: sessionUser } = useUser()
   const { user: authUser, setUser } = useAuth()
   const [isPending, startTransition] = useTransition()
   const [isLoading, setIsLoading] = useState(true)
   const [imageUploading, setImageUploading] = useState(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const router = useRouter()
 
   // Determine the display image (preview > authUser image > session image > placeholder)
-  const displayImage = previewImage || sessionUser?.picture || null
+  const displayImage = previewImage || authUser?.profileImage || null
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -68,7 +68,7 @@ export function ProfileForm() {
     const loadProfile = async () => {
       try {
         startTransition(async () => {
-          if (sessionUser) {
+          if (authUser) {
             const data = await getProfile()
             if (data) {
               form.reset({
@@ -93,7 +93,7 @@ export function ProfileForm() {
       }
     }
     loadProfile()
-  }, [sessionUser, form, setUser, authUser?.id])
+  }, [authUser, form, setUser, authUser?.id])
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
@@ -125,6 +125,7 @@ export function ProfileForm() {
       const res = await uploadProfileImage(file)
       if (res && res.data) {
         setUser(res.data)
+        router.refresh()
         toast.success("Imagen de perfil actualizada")
       }
     } catch (error) {
@@ -270,7 +271,7 @@ export function ProfileForm() {
                   <div className="space-y-2">
                     <FormLabel>Email</FormLabel>
                     <Input
-                      value={sessionUser?.email || ""}
+                      value={authUser?.email || ""}
                       disabled
                       className="bg-muted text-muted-foreground"
                     />

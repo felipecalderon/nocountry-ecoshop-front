@@ -2,6 +2,7 @@
 import { fetcher } from "@/lib/fetcher"
 import {
   CreateBrandDto,
+  UpdateBrandDto,
   BrandStatsDto,
   UpdateOrderStatusDto,
   OrderItemDto,

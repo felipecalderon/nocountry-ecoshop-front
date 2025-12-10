@@ -35,5 +35,6 @@ export interface User {
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
+  profileImage: string | null
   // addresses?: Address[]
 }

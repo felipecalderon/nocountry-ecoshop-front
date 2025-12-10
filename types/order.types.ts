@@ -1,3 +1,5 @@
+import { Product } from "./product.types"
+
 export interface OrderItemDto {
   productId: string
   quantity: number
@@ -11,6 +13,21 @@ export interface CreateOrderDto {
 
 export interface UpdateOrderStatusDto {
   status: "pending" | "paid" | "shipped" | "completed" | "cancelled"
+}
+
+export interface OrderFromUser {
+  id: string
+  status: UpdateOrderStatusDto["status"]
+  totalPrice: string
+  totalCarbonFootprint: string
+  couponCode?: string
+  createdAt: string
+  updatedAt: string
+  items: {
+    id: string
+    quantity: number
+    product: Product
+  }[]
 }
 
 export interface Order {
