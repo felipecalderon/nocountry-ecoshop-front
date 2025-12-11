@@ -66,6 +66,11 @@ export const dashboardConfigs: Record<string, DashboardConfig> = {
         icon: "Users",
       },
       {
+        label: "Mi Marca",
+        href: "/dashboard/brand_admin/brand",
+        icon: "Store",
+      },
+      {
         label: "Productos",
         href: "/dashboard/admin/products",
         icon: "Package",
