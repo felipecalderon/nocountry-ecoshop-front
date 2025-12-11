@@ -12,17 +12,19 @@ import { Button } from "@/app/components/ui/button"
 import { Alert, AlertDescription } from "@/app/components/ui/alert"
 import AddressSelector from "./AddressSelector"
 import CheckoutSummary from "./CheckoutSummary"
-import CouponInput from "./CouponInput"
-import { Address } from "@/types"
+import CouponSelector from "./CouponSelector"
+import { Address, Coupon } from "@/types"
 
 export default function CheckoutClient({
   addresses,
+  coupons,
 }: {
   addresses: Address[]
+  coupons: Coupon[]
 }) {
   const router = useRouter()
   const [isMounted, setIsMounted] = useState(false)
-  const { items, clearCart } = useCartStore()
+  const { items } = useCartStore()
   const {
     selectedAddressId,
     couponCode,
@@ -65,12 +67,10 @@ export default function CheckoutClient({
       }
 
       const orderResponse = await createOrder(orderData)
-
       const sessionResponse = await createCheckoutSession({
         orderId: orderResponse.data.orderId,
       })
 
-      clearCart()
       reset()
 
       window.location.href = sessionResponse.data.url
@@ -119,7 +119,7 @@ export default function CheckoutClient({
       <section className="grid gap-8 lg:grid-cols-3">
         <aside className="lg:col-span-2 space-y-6">
           <AddressSelector addresses={addresses} />
-          <CouponInput />
+          <CouponSelector coupons={coupons} />
         </aside>
 
         <CheckoutSummary

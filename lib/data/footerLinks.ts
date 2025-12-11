@@ -3,17 +3,27 @@ export const footerColumns = [
     title: "Ecoshop",
     links: [
       { href: "/about", label: "Acerca de" },
-      { href: "/contact", label: "Contacto" },
-      { href: "/faqs", label: "FAQs" },
+      { href: "/store", label: "Productos" },
+      { href: "/favorites", label: "Favoritos" },
+      { href: "/cart", label: "Carrito" },
     ],
   },
   {
-    title: "Categorías",
+    title: "Productos",
     links: [
-      { href: "/products/new", label: "Nuevo" },
-      { href: "/products/home-goods", label: "Hogar" },
-      { href: "/products/accessories", label: "Accesorios" },
-      { href: "/products/gift", label: "Regalos" },
+      {
+        href: "/store?recyclabilityStatus=FULLY_RECYCLABLE",
+        label: "Reciclables",
+      },
+      {
+        href: "/store?recyclabilityStatus=PARTIALLY_RECYCLABLE",
+        label: "Parcialmente Reciclables",
+      },
+      { href: "/store?ecoBadgeLevel=LOW", label: "Bajo Impacto" },
+      {
+        href: "/store?ecoBadgeLevel=MEDIUM",
+        label: "Medio Impacto",
+      },
     ],
   },
   {

@@ -1,9 +1,19 @@
+"use client"
+
 import Link from "next/link"
+import { useEffect } from "react"
 import { CheckCircle, Package, Home, Sprout } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { Card, CardContent } from "@/app/components/ui/card"
+import { useCartStore } from "@/stores/cartStore"
 
 export default function CheckoutSuccessPage() {
+  const { clearCart } = useCartStore()
+
+  useEffect(() => {
+    clearCart()
+  }, [clearCart])
+
   return (
     <section className="container mx-auto p-4">
       <div className="max-w-2xl mx-auto">

@@ -40,3 +40,13 @@ export interface CreateRewardDto {
   rewardId: string
   amount: number
 }
+
+export interface Coupon {
+  id: string
+  code: string
+  discountPercentage: number
+  isUsed: boolean
+  expiresAt: string
+  createdAt: string
+  updatedAt: string
+}
