@@ -5,6 +5,7 @@ import {
   WalletReward,
   WalletBalance,
   RewardAdminDto,
+  Coupon,
 } from "@/types"
 import { auth0 } from "@/lib/auth0"
 import { AxiosError } from "axios"
@@ -70,6 +71,18 @@ export const createReward = async (data: RewardAdminDto) => {
       console.error("Error creating reward:", error.response)
     }
     console.error("Error creating reward:", error)
+    throw error
+  }
+}
+
+export const getCoupons = async () => {
+  try {
+    const { token } = await auth0.getAccessToken()
+    return await fetcher<{ data: Coupon[] }>("GET", "/wallet/coupons", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  } catch (error) {
+    console.error("Error fetching coupons:", error)
     throw error
   }
 }
