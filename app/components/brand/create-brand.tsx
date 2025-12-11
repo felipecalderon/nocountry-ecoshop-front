@@ -11,6 +11,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
 export default function CreateBrand() {
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState<CreateBrandDto>({
     name: "",
     description: "",
@@ -30,13 +31,21 @@ export default function CreateBrand() {
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    const newBrand = await createBrand(formData)
-    if (newBrand.data) {
-      toast.success("Tienda creada exitosamente")
-      router.refresh()
-    } else {
+    try {
+      setLoading(true)
+      e.preventDefault()
+      const newBrand = await createBrand(formData)
+      if (newBrand.data) {
+        toast.success("Tienda creada exitosamente")
+        router.refresh()
+      } else {
+        toast.error("No se pudo crear la tienda")
+      }
+    } catch (error) {
+      console.error("Error al crear la tienda:", error)
       toast.error("Error al crear la tienda")
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -77,7 +86,9 @@ export default function CreateBrand() {
           />
         </div>
 
-        <Button type="submit">Crear nueva tienda</Button>
+        <Button type="submit" disabled={loading}>
+          {loading ? "Creando..." : "Crear nueva tienda"}
+        </Button>
       </div>
     </form>
   )
