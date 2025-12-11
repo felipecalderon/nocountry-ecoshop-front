@@ -1,9 +1,11 @@
 import { Suspense } from "react"
 import CheckoutClient from "@/app/components/checkout/CheckoutClient"
 import { getAddresses } from "@/actions/addresses"
+import { getCoupons } from "@/actions/wallet"
 
 export default async function CheckoutPage() {
   const addressesResponse = await getAddresses()
+  const couponsResponse = await getCoupons()
 
   return (
     <Suspense
@@ -14,7 +16,10 @@ export default async function CheckoutPage() {
         </section>
       }
     >
-      <CheckoutClient addresses={addressesResponse.data} />
+      <CheckoutClient
+        addresses={addressesResponse.data}
+        coupons={couponsResponse.data}
+      />
     </Suspense>
   )
 }
