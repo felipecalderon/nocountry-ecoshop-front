@@ -12,21 +12,11 @@ import {
 import { auth0 } from "@/lib/auth0"
 
 export const createBrand = async (data: CreateBrandDto) => {
-  const formData = new FormData()
-  formData.append("name", data.name)
-  if (data.description) formData.append("description", data.description)
   try {
-    const formData = new FormData()
-    Object.entries(data).forEach(([key, value]) => {
-      if (value !== undefined) formData.append(key, value as string | Blob)
-    })
-
     const { token } = await auth0.getAccessToken()
-
-    return await fetcher("POST", "/brands", {
-      data: formData,
+    return await fetcher<{ data: Brand }>("POST", "/brands", {
+      data,
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     })

@@ -7,6 +7,8 @@ import { Textarea } from "../ui/textarea"
 import { useState } from "react"
 import { Button } from "../ui/button"
 import { createBrand } from "@/actions/brands"
+import { toast } from "sonner"
+import { useRouter } from "next/navigation"
 
 export default function CreateBrand() {
   const [formData, setFormData] = useState<CreateBrandDto>({
@@ -14,6 +16,8 @@ export default function CreateBrand() {
     description: "",
     image: "https://placehold.co/600x400/EEE/31343C?text=No+Image",
   })
+
+  const router = useRouter()
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -28,7 +32,12 @@ export default function CreateBrand() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const newBrand = await createBrand(formData)
-    console.log(newBrand)
+    if (newBrand.data) {
+      toast.success("Tienda creada exitosamente")
+      router.refresh()
+    } else {
+      toast.error("Error al crear la tienda")
+    }
   }
 
   return (
